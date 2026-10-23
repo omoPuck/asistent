@@ -1,0 +1,24 @@
+From: Organizer <organizer@example.org>
+To: owner@example.com
+Message-ID: <notice-102@example.org>
+Date: Mon, 05 Oct 2026 09:00:00 +0800
+Subject: =?utf-8?b?5rS75Yqo5oql5ZCN6KGo77yI5ZCr6ZmE5Lu277yJ?=
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="===============4593329148664405604=="
+
+--===============4593329148664405604==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+附件是报名表，请填写后回复。
+
+--===============4593329148664405604==
+Content-Type: application/octet-stream
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename*=utf-8''%E6%8A%A5%E5%90%8D%E8%A1%A8.txt
+MIME-Version: 1.0
+
+5aeT5ZCN77yaCuWNleS9je+8mgo=
+
+--===============4593329148664405604==--

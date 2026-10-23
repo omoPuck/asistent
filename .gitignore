@@ -1,0 +1,46 @@
+# 运行时数据：数据库、索引、日志、队列、归档暂存 —— 一律不入库
+var/
+*.db
+*.db-wal
+*.db-shm
+*.sqlite3
+*.log
+
+# 例外：验收证据（SPEC §21.8 要求"测试产物放入版本化验收目录"）。
+# 这些是**冻结的原始输出**（带设备/时间/提交/命令/退出码头部），不是运行时日志：
+# 运行时日志会一直被追加、内容不可复现；验收证据是一次性的、必须逐字留档，
+# 否则"通过"就只有结论没有依据。这里只放行这一个目录，别处照旧忽略 *.log。
+!docs/evidence/
+!docs/evidence/*.log
+
+# 凭据与本地配置（含令牌、授权码、BDUSS、SMTP/IMAP 密码）
+.env
+.env.*
+*.secret
+*credentials*
+*.token
+config/local.yaml
+config/*.local.*
+secrets/
+
+# 真实私密资料与邮件夹具的私人副本（只允许提交脱敏夹具）
+fixtures/private/
+fixtures/**/*.eml.real
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# 并行 worktree（每个 MVP 一个，不入主仓库历史）
+.worktrees/
+
+# 编辑器/系统
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+
+dist/

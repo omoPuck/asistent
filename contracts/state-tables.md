@@ -1,0 +1,352 @@
+# 状态转换表（由 `asistent/contracts/transitions.py` 生成，请勿手改）
+
+- 契约版本：`v0.9`
+- 生成命令：`python3 scripts/gen_contract_snapshot.py`
+- 校验命令：`python3 scripts/gen_contract_snapshot.py --check`
+
+## ActionAttempt
+
+- 初始状态：`IN_FLIGHT`
+- 全部状态：`FAILED_SAFE`, `IN_FLIGHT`, `SUCCEEDED`, `UNKNOWN`
+
+| 从 | 到 | 允许触发者 | 需要无不可逆动作 | 说明 |
+|---|---|---|---|---|
+| `IN_FLIGHT` | `FAILED_SAFE` | AGENT, USER, SYSTEM | — |  |
+| `IN_FLIGHT` | `SUCCEEDED` | AGENT, USER, SYSTEM | — |  |
+| `IN_FLIGHT` | `UNKNOWN` | AGENT, USER, SYSTEM | — |  |
+
+## Approval
+
+- 初始状态：`ACTIVE`
+- 全部状态：`ACTIVE`, `CONSUMED`, `EXPIRED`, `INVALIDATED`, `REVOKED`
+
+| 从 | 到 | 允许触发者 | 需要无不可逆动作 | 说明 |
+|---|---|---|---|---|
+| `ACTIVE` | `CONSUMED` | AGENT, USER, SYSTEM | — |  |
+| `ACTIVE` | `EXPIRED` | AGENT, USER, SYSTEM | — |  |
+| `ACTIVE` | `INVALIDATED` | AGENT, USER, SYSTEM | — |  |
+| `ACTIVE` | `REVOKED` | AGENT, USER, SYSTEM | — |  |
+
+## ArchiveJob
+
+- 初始状态：`PENDING`
+- 全部状态：`FAILED`, `PARTIAL`, `PENDING`, `PENDING_VERIFICATION`, `UPLOADING`, `VERIFIED`, `VERIFYING`
+
+| 从 | 到 | 允许触发者 | 需要无不可逆动作 | 说明 |
+|---|---|---|---|---|
+| `FAILED` | `PENDING` | AGENT, USER, SYSTEM | — |  |
+| `FAILED` | `UPLOADING` | AGENT, USER, SYSTEM | — |  |
+| `PARTIAL` | `FAILED` | AGENT, USER, SYSTEM | — |  |
+| `PARTIAL` | `PENDING` | AGENT, USER, SYSTEM | — |  |
+| `PARTIAL` | `UPLOADING` | AGENT, USER, SYSTEM | — |  |
+| `PENDING` | `FAILED` | AGENT, USER, SYSTEM | — |  |
+| `PENDING` | `UPLOADING` | AGENT, USER, SYSTEM | — |  |
+| `PENDING_VERIFICATION` | `FAILED` | AGENT, USER, SYSTEM | — |  |
+| `PENDING_VERIFICATION` | `VERIFIED` | AGENT, USER, SYSTEM | — |  |
+| `PENDING_VERIFICATION` | `VERIFYING` | AGENT, USER, SYSTEM | — |  |
+| `UPLOADING` | `FAILED` | AGENT, USER, SYSTEM | — |  |
+| `UPLOADING` | `PARTIAL` | AGENT, USER, SYSTEM | — |  |
+| `UPLOADING` | `PENDING` | AGENT, USER, SYSTEM | — |  |
+| `UPLOADING` | `VERIFYING` | AGENT, USER, SYSTEM | — |  |
+| `VERIFYING` | `FAILED` | AGENT, USER, SYSTEM | — |  |
+| `VERIFYING` | `PARTIAL` | AGENT, USER, SYSTEM | — |  |
+| `VERIFYING` | `PENDING_VERIFICATION` | AGENT, USER, SYSTEM | — |  |
+| `VERIFYING` | `VERIFIED` | AGENT, USER, SYSTEM | — |  |
+
+## Case
+
+- 初始状态：`NEW`
+- 全部状态：`ANALYZING`, `APPROVED`, `ARCHIVE_PENDING`, `ARCHIVING`, `BLOCKED`, `CANCELLED`, `COMPLETED`, `EXECUTING`, `FAILED`, `NEW`, `READY_FOR_REVIEW`, `SUCCEEDED`, `TRIAGED`, `UNKNOWN`, `WAITING_FOR_CONTEXT`, `WAITING_FOR_USER`
+
+| 从 | 到 | 允许触发者 | 需要无不可逆动作 | 说明 |
+|---|---|---|---|---|
+| `ANALYZING` | `BLOCKED` | AGENT, USER, SYSTEM | — |  |
+| `ANALYZING` | `CANCELLED` | AGENT, USER, SYSTEM | — |  |
+| `ANALYZING` | `FAILED` | AGENT, USER, SYSTEM | — |  |
+| `ANALYZING` | `READY_FOR_REVIEW` | AGENT, USER, SYSTEM | — |  |
+| `ANALYZING` | `TRIAGED` | AGENT, USER, SYSTEM | — |  |
+| `ANALYZING` | `WAITING_FOR_CONTEXT` | AGENT, USER, SYSTEM | — |  |
+| `ANALYZING` | `WAITING_FOR_USER` | AGENT, USER, SYSTEM | — |  |
+| `APPROVED` | `BLOCKED` | AGENT, USER, SYSTEM | — |  |
+| `APPROVED` | `CANCELLED` | AGENT, USER, SYSTEM | — |  |
+| `APPROVED` | `EXECUTING` | AGENT, USER, SYSTEM | — |  |
+| `APPROVED` | `READY_FOR_REVIEW` | AGENT, USER, SYSTEM | — |  |
+| `ARCHIVE_PENDING` | `ARCHIVING` | AGENT, USER, SYSTEM | — |  |
+| `ARCHIVE_PENDING` | `BLOCKED` | AGENT, USER, SYSTEM | — |  |
+| `ARCHIVE_PENDING` | `CANCELLED` | AGENT, USER, SYSTEM | — |  |
+| `ARCHIVE_PENDING` | `COMPLETED` | AGENT, USER, SYSTEM | — |  |
+| `ARCHIVING` | `ARCHIVE_PENDING` | AGENT, USER, SYSTEM | — |  |
+| `ARCHIVING` | `COMPLETED` | AGENT, USER, SYSTEM | — |  |
+| `ARCHIVING` | `FAILED` | AGENT, USER, SYSTEM | — |  |
+| `ARCHIVING` | `SUCCEEDED` | AGENT, USER, SYSTEM | — |  |
+| `ARCHIVING` | `UNKNOWN` | AGENT, USER, SYSTEM | — |  |
+| `BLOCKED` | `ANALYZING` | AGENT, USER, SYSTEM | — |  |
+| `BLOCKED` | `ARCHIVE_PENDING` | AGENT, USER, SYSTEM | — |  |
+| `BLOCKED` | `ARCHIVING` | AGENT, USER, SYSTEM | — |  |
+| `BLOCKED` | `CANCELLED` | AGENT, USER, SYSTEM | — |  |
+| `BLOCKED` | `READY_FOR_REVIEW` | AGENT, USER, SYSTEM | — |  |
+| `BLOCKED` | `TRIAGED` | AGENT, USER, SYSTEM | — |  |
+| `BLOCKED` | `WAITING_FOR_USER` | AGENT, USER, SYSTEM | — |  |
+| `CANCELLED` | `ARCHIVE_PENDING` | AGENT, USER, SYSTEM | — |  |
+| `CANCELLED` | `ARCHIVING` | AGENT, USER, SYSTEM | — |  |
+| `COMPLETED` | `ARCHIVE_PENDING` | AGENT, USER, SYSTEM | — |  |
+| `EXECUTING` | `BLOCKED` | AGENT, USER, SYSTEM | — |  |
+| `EXECUTING` | `FAILED` | AGENT, USER, SYSTEM | — |  |
+| `EXECUTING` | `SUCCEEDED` | AGENT, USER, SYSTEM | — |  |
+| `EXECUTING` | `UNKNOWN` | AGENT, USER, SYSTEM | — |  |
+| `FAILED` | `ANALYZING` | AGENT, USER, SYSTEM | — |  |
+| `FAILED` | `ARCHIVE_PENDING` | AGENT, USER, SYSTEM | — |  |
+| `FAILED` | `ARCHIVING` | AGENT, USER, SYSTEM | — |  |
+| `FAILED` | `BLOCKED` | AGENT, USER, SYSTEM | — |  |
+| `FAILED` | `CANCELLED` | AGENT, USER, SYSTEM | — |  |
+| `FAILED` | `READY_FOR_REVIEW` | AGENT, USER, SYSTEM | — |  |
+| `NEW` | `BLOCKED` | AGENT, USER, SYSTEM | — |  |
+| `NEW` | `CANCELLED` | AGENT, USER, SYSTEM | — |  |
+| `NEW` | `TRIAGED` | AGENT, USER, SYSTEM | — |  |
+| `NEW` | `WAITING_FOR_CONTEXT` | AGENT, USER, SYSTEM | — |  |
+| `READY_FOR_REVIEW` | `ANALYZING` | AGENT, USER, SYSTEM | — |  |
+| `READY_FOR_REVIEW` | `APPROVED` | AGENT, USER, SYSTEM | — |  |
+| `READY_FOR_REVIEW` | `BLOCKED` | AGENT, USER, SYSTEM | — |  |
+| `READY_FOR_REVIEW` | `CANCELLED` | AGENT, USER, SYSTEM | — |  |
+| `READY_FOR_REVIEW` | `FAILED` | AGENT, USER, SYSTEM | — |  |
+| `READY_FOR_REVIEW` | `WAITING_FOR_USER` | AGENT, USER, SYSTEM | — |  |
+| `SUCCEEDED` | `ARCHIVE_PENDING` | AGENT, USER, SYSTEM | — |  |
+| `SUCCEEDED` | `ARCHIVING` | AGENT, USER, SYSTEM | — |  |
+| `SUCCEEDED` | `BLOCKED` | AGENT, USER, SYSTEM | — |  |
+| `SUCCEEDED` | `COMPLETED` | AGENT, USER, SYSTEM | — |  |
+| `TRIAGED` | `ANALYZING` | AGENT, USER, SYSTEM | — |  |
+| `TRIAGED` | `BLOCKED` | AGENT, USER, SYSTEM | — |  |
+| `TRIAGED` | `CANCELLED` | AGENT, USER, SYSTEM | — |  |
+| `TRIAGED` | `READY_FOR_REVIEW` | AGENT, USER, SYSTEM | — |  |
+| `TRIAGED` | `WAITING_FOR_CONTEXT` | AGENT, USER, SYSTEM | — |  |
+| `TRIAGED` | `WAITING_FOR_USER` | AGENT, USER, SYSTEM | — |  |
+| `UNKNOWN` | `ARCHIVE_PENDING` | AGENT, USER, SYSTEM | — |  |
+| `UNKNOWN` | `ARCHIVING` | AGENT, USER, SYSTEM | — |  |
+| `UNKNOWN` | `BLOCKED` | AGENT, USER, SYSTEM | — |  |
+| `UNKNOWN` | `CANCELLED` | AGENT, USER, SYSTEM | — |  |
+| `UNKNOWN` | `FAILED` | AGENT, USER, SYSTEM | — |  |
+| `UNKNOWN` | `READY_FOR_REVIEW` | AGENT, USER, SYSTEM | — |  |
+| `UNKNOWN` | `SUCCEEDED` | AGENT, USER, SYSTEM | — |  |
+| `UNKNOWN` | `WAITING_FOR_USER` | AGENT, USER, SYSTEM | — |  |
+| `WAITING_FOR_CONTEXT` | `ANALYZING` | AGENT, USER, SYSTEM | — |  |
+| `WAITING_FOR_CONTEXT` | `BLOCKED` | AGENT, USER, SYSTEM | — |  |
+| `WAITING_FOR_CONTEXT` | `CANCELLED` | AGENT, USER, SYSTEM | — |  |
+| `WAITING_FOR_CONTEXT` | `TRIAGED` | AGENT, USER, SYSTEM | — |  |
+| `WAITING_FOR_CONTEXT` | `WAITING_FOR_USER` | AGENT, USER, SYSTEM | — |  |
+| `WAITING_FOR_USER` | `ANALYZING` | AGENT, USER, SYSTEM | — |  |
+| `WAITING_FOR_USER` | `BLOCKED` | AGENT, USER, SYSTEM | — |  |
+| `WAITING_FOR_USER` | `CANCELLED` | AGENT, USER, SYSTEM | — |  |
+| `WAITING_FOR_USER` | `READY_FOR_REVIEW` | AGENT, USER, SYSTEM | — |  |
+| `WAITING_FOR_USER` | `WAITING_FOR_CONTEXT` | AGENT, USER, SYSTEM | — |  |
+
+## Draft
+
+- 初始状态：`OPEN`
+- 全部状态：`LOCKED`, `OPEN`, `REVOKED`, `STALE`
+
+| 从 | 到 | 允许触发者 | 需要无不可逆动作 | 说明 |
+|---|---|---|---|---|
+| `LOCKED` | `OPEN` | AGENT, USER, SYSTEM | — |  |
+| `LOCKED` | `REVOKED` | AGENT, USER, SYSTEM | — |  |
+| `LOCKED` | `STALE` | AGENT, USER, SYSTEM | — |  |
+| `OPEN` | `LOCKED` | AGENT, USER, SYSTEM | — |  |
+| `OPEN` | `REVOKED` | AGENT, USER, SYSTEM | — |  |
+| `OPEN` | `STALE` | AGENT, USER, SYSTEM | — |  |
+| `STALE` | `OPEN` | AGENT, USER, SYSTEM | — |  |
+| `STALE` | `REVOKED` | AGENT, USER, SYSTEM | — |  |
+
+## Execution
+
+- 初始状态：`RUNNING`
+- 全部状态：`FAILED`, `RUNNING`, `SUCCEEDED`, `TIMEOUT`
+
+| 从 | 到 | 允许触发者 | 需要无不可逆动作 | 说明 |
+|---|---|---|---|---|
+| `RUNNING` | `FAILED` | AGENT, USER, SYSTEM | — |  |
+| `RUNNING` | `SUCCEEDED` | AGENT, USER, SYSTEM | — |  |
+| `RUNNING` | `TIMEOUT` | AGENT, USER, SYSTEM | — |  |
+
+## ExternalAction
+
+- 初始状态：`PREPARED`
+- 全部状态：`AUTHORIZED`, `CANCELLED`, `FAILED_SAFE`, `IN_FLIGHT`, `PREPARED`, `SUCCEEDED`, `UNKNOWN`
+
+| 从 | 到 | 允许触发者 | 需要无不可逆动作 | 说明 |
+|---|---|---|---|---|
+| `AUTHORIZED` | `CANCELLED` | AGENT, USER, SYSTEM | — |  |
+| `AUTHORIZED` | `IN_FLIGHT` | AGENT, USER, SYSTEM | — |  |
+| `AUTHORIZED` | `PREPARED` | AGENT, USER, SYSTEM | — |  |
+| `FAILED_SAFE` | `AUTHORIZED` | USER, SYSTEM | — | 重新批准后可再次准备 |
+| `FAILED_SAFE` | `CANCELLED` | AGENT, USER, SYSTEM | — |  |
+| `FAILED_SAFE` | `PREPARED` | USER, SYSTEM | — | 重新批准后可再次准备 |
+| `IN_FLIGHT` | `FAILED_SAFE` | AGENT, USER, SYSTEM | — |  |
+| `IN_FLIGHT` | `SUCCEEDED` | AGENT, USER, SYSTEM | — |  |
+| `IN_FLIGHT` | `UNKNOWN` | AGENT, USER, SYSTEM | — |  |
+| `PREPARED` | `AUTHORIZED` | USER, SYSTEM | — |  |
+| `PREPARED` | `CANCELLED` | AGENT, USER, SYSTEM | — |  |
+| `UNKNOWN` | `CANCELLED` | USER, SYSTEM | — | 需人工核实或用户裁决 |
+| `UNKNOWN` | `FAILED_SAFE` | USER, SYSTEM | — | 需人工核实或用户裁决 |
+| `UNKNOWN` | `SUCCEEDED` | USER, SYSTEM | — | 需人工核实或用户裁决 |
+
+## IndexState
+
+- 初始状态：`PENDING`
+- 全部状态：`FAILED`, `INDEXED`, `PENDING`, `REBUILD_REQUIRED`, `STALE`
+
+| 从 | 到 | 允许触发者 | 需要无不可逆动作 | 说明 |
+|---|---|---|---|---|
+| `FAILED` | `INDEXED` | AGENT, USER, SYSTEM | — |  |
+| `FAILED` | `PENDING` | AGENT, USER, SYSTEM | — |  |
+| `FAILED` | `REBUILD_REQUIRED` | AGENT, USER, SYSTEM | — |  |
+| `INDEXED` | `PENDING` | AGENT, USER, SYSTEM | — |  |
+| `INDEXED` | `STALE` | AGENT, USER, SYSTEM | — |  |
+| `PENDING` | `FAILED` | AGENT, USER, SYSTEM | — |  |
+| `PENDING` | `INDEXED` | AGENT, USER, SYSTEM | — |  |
+| `PENDING` | `STALE` | AGENT, USER, SYSTEM | — |  |
+| `REBUILD_REQUIRED` | `FAILED` | AGENT, USER, SYSTEM | — |  |
+| `REBUILD_REQUIRED` | `INDEXED` | AGENT, USER, SYSTEM | — |  |
+| `REBUILD_REQUIRED` | `PENDING` | AGENT, USER, SYSTEM | — |  |
+| `STALE` | `FAILED` | AGENT, USER, SYSTEM | — |  |
+| `STALE` | `INDEXED` | AGENT, USER, SYSTEM | — |  |
+| `STALE` | `REBUILD_REQUIRED` | AGENT, USER, SYSTEM | — |  |
+
+## Memory
+
+- 初始状态：`CANDIDATE`
+- 全部状态：`CANDIDATE`, `ENABLED`, `PENDING_CONFIRMATION`, `REVOKED`, `SUPERSEDED`
+
+| 从 | 到 | 允许触发者 | 需要无不可逆动作 | 说明 |
+|---|---|---|---|---|
+| `CANDIDATE` | `PENDING_CONFIRMATION` | AGENT, USER, SYSTEM | — |  |
+| `CANDIDATE` | `REVOKED` | AGENT, USER, SYSTEM | — |  |
+| `ENABLED` | `REVOKED` | AGENT, USER, SYSTEM | — |  |
+| `ENABLED` | `SUPERSEDED` | AGENT, USER, SYSTEM | — |  |
+| `PENDING_CONFIRMATION` | `CANDIDATE` | AGENT, USER, SYSTEM | — |  |
+| `PENDING_CONFIRMATION` | `ENABLED` | AGENT, USER, SYSTEM | — |  |
+| `PENDING_CONFIRMATION` | `REVOKED` | AGENT, USER, SYSTEM | — |  |
+| `REVOKED` | `ENABLED` | AGENT, USER, SYSTEM | — |  |
+| `SUPERSEDED` | `ENABLED` | AGENT, USER, SYSTEM | — |  |
+| `SUPERSEDED` | `REVOKED` | AGENT, USER, SYSTEM | — |  |
+
+## Question
+
+- 初始状态：`OPEN`
+- 全部状态：`ANSWERED`, `CLOSED`, `EXPIRED`, `OPEN`
+
+| 从 | 到 | 允许触发者 | 需要无不可逆动作 | 说明 |
+|---|---|---|---|---|
+| `ANSWERED` | `CLOSED` | AGENT, USER, SYSTEM | — |  |
+| `ANSWERED` | `OPEN` | AGENT, USER, SYSTEM | — |  |
+| `EXPIRED` | `CLOSED` | AGENT, USER, SYSTEM | — |  |
+| `EXPIRED` | `OPEN` | AGENT, USER, SYSTEM | — |  |
+| `OPEN` | `ANSWERED` | AGENT, USER, SYSTEM | — |  |
+| `OPEN` | `CLOSED` | AGENT, USER, SYSTEM | — |  |
+| `OPEN` | `EXPIRED` | AGENT, USER, SYSTEM | — |  |
+
+## RestoreJob
+
+- 初始状态：`PENDING`
+- 全部状态：`CONFLICT`, `FAILED`, `PENDING`, `RUNNING`, `VERIFIED`
+
+| 从 | 到 | 允许触发者 | 需要无不可逆动作 | 说明 |
+|---|---|---|---|---|
+| `CONFLICT` | `FAILED` | AGENT, USER, SYSTEM | — |  |
+| `CONFLICT` | `RUNNING` | AGENT, USER, SYSTEM | — |  |
+| `CONFLICT` | `VERIFIED` | AGENT, USER, SYSTEM | — |  |
+| `FAILED` | `PENDING` | AGENT, USER, SYSTEM | — |  |
+| `PENDING` | `FAILED` | AGENT, USER, SYSTEM | — |  |
+| `PENDING` | `RUNNING` | AGENT, USER, SYSTEM | — |  |
+| `RUNNING` | `CONFLICT` | AGENT, USER, SYSTEM | — |  |
+| `RUNNING` | `FAILED` | AGENT, USER, SYSTEM | — |  |
+| `RUNNING` | `VERIFIED` | AGENT, USER, SYSTEM | — |  |
+
+## Rule
+
+- 初始状态：`CANDIDATE`
+- 全部状态：`CANDIDATE`, `ENABLED`, `PENDING_CONFIRMATION`, `REVOKED`, `SUPERSEDED`
+
+| 从 | 到 | 允许触发者 | 需要无不可逆动作 | 说明 |
+|---|---|---|---|---|
+| `CANDIDATE` | `PENDING_CONFIRMATION` | AGENT, USER, SYSTEM | — |  |
+| `CANDIDATE` | `REVOKED` | AGENT, USER, SYSTEM | — |  |
+| `ENABLED` | `REVOKED` | AGENT, USER, SYSTEM | — |  |
+| `ENABLED` | `SUPERSEDED` | AGENT, USER, SYSTEM | — |  |
+| `PENDING_CONFIRMATION` | `CANDIDATE` | AGENT, USER, SYSTEM | — |  |
+| `PENDING_CONFIRMATION` | `ENABLED` | AGENT, USER, SYSTEM | — |  |
+| `PENDING_CONFIRMATION` | `REVOKED` | AGENT, USER, SYSTEM | — |  |
+| `REVOKED` | `ENABLED` | AGENT, USER, SYSTEM | — |  |
+| `SUPERSEDED` | `ENABLED` | AGENT, USER, SYSTEM | — |  |
+| `SUPERSEDED` | `REVOKED` | AGENT, USER, SYSTEM | — |  |
+
+## Task
+
+- 初始状态：`PENDING`
+- 全部状态：`BLOCKED`, `CANCELLED`, `DONE`, `FAILED`, `PENDING`, `READY`, `RETRY_WAIT`, `RUNNING`, `WAITING_USER`
+
+| 从 | 到 | 允许触发者 | 需要无不可逆动作 | 说明 |
+|---|---|---|---|---|
+| `BLOCKED` | `CANCELLED` | AGENT, USER, SYSTEM | — |  |
+| `BLOCKED` | `PENDING` | AGENT, USER, SYSTEM | — |  |
+| `BLOCKED` | `READY` | AGENT, USER, SYSTEM | — |  |
+| `FAILED` | `BLOCKED` | AGENT, USER, SYSTEM | — |  |
+| `FAILED` | `CANCELLED` | AGENT, USER, SYSTEM | — |  |
+| `FAILED` | `READY` | AGENT, USER, SYSTEM | — |  |
+| `PENDING` | `BLOCKED` | AGENT, USER, SYSTEM | — |  |
+| `PENDING` | `CANCELLED` | AGENT, USER, SYSTEM | — |  |
+| `PENDING` | `READY` | AGENT, USER, SYSTEM | — |  |
+| `PENDING` | `WAITING_USER` | AGENT, USER, SYSTEM | — |  |
+| `READY` | `BLOCKED` | AGENT, USER, SYSTEM | — |  |
+| `READY` | `CANCELLED` | AGENT, USER, SYSTEM | — |  |
+| `READY` | `RETRY_WAIT` | AGENT, USER, SYSTEM | — |  |
+| `READY` | `RUNNING` | AGENT, USER, SYSTEM | — |  |
+| `READY` | `WAITING_USER` | AGENT, USER, SYSTEM | — |  |
+| `RETRY_WAIT` | `BLOCKED` | AGENT, USER, SYSTEM | — |  |
+| `RETRY_WAIT` | `CANCELLED` | AGENT, USER, SYSTEM | — |  |
+| `RETRY_WAIT` | `FAILED` | AGENT, USER, SYSTEM | — |  |
+| `RETRY_WAIT` | `READY` | AGENT, USER, SYSTEM | — |  |
+| `RETRY_WAIT` | `RUNNING` | AGENT, USER, SYSTEM | — |  |
+| `RUNNING` | `BLOCKED` | AGENT, USER, SYSTEM | — |  |
+| `RUNNING` | `DONE` | AGENT, USER, SYSTEM | — |  |
+| `RUNNING` | `FAILED` | AGENT, USER, SYSTEM | — |  |
+| `RUNNING` | `RETRY_WAIT` | AGENT, USER, SYSTEM | — |  |
+| `RUNNING` | `WAITING_USER` | AGENT, USER, SYSTEM | — |  |
+| `WAITING_USER` | `BLOCKED` | AGENT, USER, SYSTEM | — |  |
+| `WAITING_USER` | `CANCELLED` | AGENT, USER, SYSTEM | — |  |
+| `WAITING_USER` | `READY` | AGENT, USER, SYSTEM | — |  |
+| `WAITING_USER` | `RUNNING` | AGENT, USER, SYSTEM | — |  |
+
+## Workflow
+
+- 初始状态：`CANDIDATE`
+- 全部状态：`CANDIDATE`, `ENABLED`, `PENDING_CONFIRMATION`, `REVOKED`, `SUPERSEDED`
+
+| 从 | 到 | 允许触发者 | 需要无不可逆动作 | 说明 |
+|---|---|---|---|---|
+| `CANDIDATE` | `PENDING_CONFIRMATION` | AGENT, USER, SYSTEM | — |  |
+| `CANDIDATE` | `REVOKED` | AGENT, USER, SYSTEM | — |  |
+| `ENABLED` | `REVOKED` | AGENT, USER, SYSTEM | — |  |
+| `ENABLED` | `SUPERSEDED` | AGENT, USER, SYSTEM | — |  |
+| `PENDING_CONFIRMATION` | `CANDIDATE` | AGENT, USER, SYSTEM | — |  |
+| `PENDING_CONFIRMATION` | `ENABLED` | AGENT, USER, SYSTEM | — |  |
+| `PENDING_CONFIRMATION` | `REVOKED` | AGENT, USER, SYSTEM | — |  |
+| `REVOKED` | `ENABLED` | AGENT, USER, SYSTEM | — |  |
+| `SUPERSEDED` | `ENABLED` | AGENT, USER, SYSTEM | — |  |
+| `SUPERSEDED` | `REVOKED` | AGENT, USER, SYSTEM | — |  |
+
+## WorkflowVersion
+
+- 初始状态：`CANDIDATE`
+- 全部状态：`CANDIDATE`, `ENABLED`, `PENDING_CONFIRMATION`, `REVOKED`, `SUPERSEDED`
+
+| 从 | 到 | 允许触发者 | 需要无不可逆动作 | 说明 |
+|---|---|---|---|---|
+| `CANDIDATE` | `PENDING_CONFIRMATION` | AGENT, USER, SYSTEM | — |  |
+| `CANDIDATE` | `REVOKED` | AGENT, USER, SYSTEM | — |  |
+| `ENABLED` | `REVOKED` | AGENT, USER, SYSTEM | — |  |
+| `ENABLED` | `SUPERSEDED` | AGENT, USER, SYSTEM | — |  |
+| `PENDING_CONFIRMATION` | `CANDIDATE` | AGENT, USER, SYSTEM | — |  |
+| `PENDING_CONFIRMATION` | `ENABLED` | AGENT, USER, SYSTEM | — |  |
+| `PENDING_CONFIRMATION` | `REVOKED` | AGENT, USER, SYSTEM | — |  |
+| `REVOKED` | `ENABLED` | AGENT, USER, SYSTEM | — |  |
+| `SUPERSEDED` | `ENABLED` | AGENT, USER, SYSTEM | — |  |
+| `SUPERSEDED` | `REVOKED` | AGENT, USER, SYSTEM | — |  |

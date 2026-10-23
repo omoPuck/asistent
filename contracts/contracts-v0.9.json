@@ -1,0 +1,3515 @@
+{
+  "contract_version": "v0.9",
+  "event_schema_version": 1,
+  "machines": {
+    "ActionAttempt": {
+      "initial": "IN_FLIGHT",
+      "states": [
+        "FAILED_SAFE",
+        "IN_FLIGHT",
+        "SUCCEEDED",
+        "UNKNOWN"
+      ],
+      "transitions": [
+        {
+          "from": "IN_FLIGHT",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "FAILED_SAFE",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "IN_FLIGHT",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "SUCCEEDED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "IN_FLIGHT",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "UNKNOWN",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        }
+      ]
+    },
+    "Approval": {
+      "initial": "ACTIVE",
+      "states": [
+        "ACTIVE",
+        "CONSUMED",
+        "EXPIRED",
+        "INVALIDATED",
+        "REVOKED"
+      ],
+      "transitions": [
+        {
+          "from": "ACTIVE",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "CONSUMED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "ACTIVE",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "EXPIRED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "ACTIVE",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "INVALIDATED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "ACTIVE",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "REVOKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        }
+      ]
+    },
+    "ArchiveJob": {
+      "initial": "PENDING",
+      "states": [
+        "FAILED",
+        "PARTIAL",
+        "PENDING",
+        "PENDING_VERIFICATION",
+        "UPLOADING",
+        "VERIFIED",
+        "VERIFYING"
+      ],
+      "transitions": [
+        {
+          "from": "FAILED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "PENDING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "FAILED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "UPLOADING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "PARTIAL",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "FAILED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "PARTIAL",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "PENDING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "PARTIAL",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "UPLOADING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "PENDING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "FAILED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "PENDING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "UPLOADING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "PENDING_VERIFICATION",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "FAILED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "PENDING_VERIFICATION",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "VERIFIED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "PENDING_VERIFICATION",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "VERIFYING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "UPLOADING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "FAILED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "UPLOADING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "PARTIAL",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "UPLOADING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "PENDING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "UPLOADING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "VERIFYING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "VERIFYING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "FAILED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "VERIFYING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "PARTIAL",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "VERIFYING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "PENDING_VERIFICATION",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "VERIFYING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "VERIFIED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        }
+      ]
+    },
+    "Case": {
+      "initial": "NEW",
+      "states": [
+        "ANALYZING",
+        "APPROVED",
+        "ARCHIVE_PENDING",
+        "ARCHIVING",
+        "BLOCKED",
+        "CANCELLED",
+        "COMPLETED",
+        "EXECUTING",
+        "FAILED",
+        "NEW",
+        "READY_FOR_REVIEW",
+        "SUCCEEDED",
+        "TRIAGED",
+        "UNKNOWN",
+        "WAITING_FOR_CONTEXT",
+        "WAITING_FOR_USER"
+      ],
+      "transitions": [
+        {
+          "from": "ANALYZING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "BLOCKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "ANALYZING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "CANCELLED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "ANALYZING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "FAILED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "ANALYZING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "READY_FOR_REVIEW",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "ANALYZING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "TRIAGED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "ANALYZING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "WAITING_FOR_CONTEXT",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "ANALYZING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "WAITING_FOR_USER",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "APPROVED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "BLOCKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "APPROVED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "CANCELLED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "APPROVED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "EXECUTING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "APPROVED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "READY_FOR_REVIEW",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "ARCHIVE_PENDING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "ARCHIVING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "ARCHIVE_PENDING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "BLOCKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "ARCHIVE_PENDING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "CANCELLED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "ARCHIVE_PENDING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "COMPLETED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "ARCHIVING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "ARCHIVE_PENDING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "ARCHIVING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "COMPLETED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "ARCHIVING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "FAILED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "ARCHIVING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "SUCCEEDED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "ARCHIVING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "UNKNOWN",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "BLOCKED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "ANALYZING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "BLOCKED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "ARCHIVE_PENDING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "BLOCKED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "ARCHIVING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "BLOCKED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "CANCELLED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "BLOCKED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "READY_FOR_REVIEW",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "BLOCKED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "TRIAGED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "BLOCKED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "WAITING_FOR_USER",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "CANCELLED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "ARCHIVE_PENDING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "CANCELLED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "ARCHIVING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "COMPLETED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "ARCHIVE_PENDING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "EXECUTING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "BLOCKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "EXECUTING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "FAILED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "EXECUTING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "SUCCEEDED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "EXECUTING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "UNKNOWN",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "FAILED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "ANALYZING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "FAILED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "ARCHIVE_PENDING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "FAILED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "ARCHIVING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "FAILED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "BLOCKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "FAILED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "CANCELLED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "FAILED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "READY_FOR_REVIEW",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "NEW",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "BLOCKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "NEW",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "CANCELLED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "NEW",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "TRIAGED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "NEW",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "WAITING_FOR_CONTEXT",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "READY_FOR_REVIEW",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "ANALYZING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "READY_FOR_REVIEW",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "APPROVED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "READY_FOR_REVIEW",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "BLOCKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "READY_FOR_REVIEW",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "CANCELLED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "READY_FOR_REVIEW",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "FAILED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "READY_FOR_REVIEW",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "WAITING_FOR_USER",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "SUCCEEDED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "ARCHIVE_PENDING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "SUCCEEDED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "ARCHIVING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "SUCCEEDED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "BLOCKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "SUCCEEDED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "COMPLETED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "TRIAGED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "ANALYZING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "TRIAGED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "BLOCKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "TRIAGED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "CANCELLED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "TRIAGED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "READY_FOR_REVIEW",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "TRIAGED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "WAITING_FOR_CONTEXT",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "TRIAGED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "WAITING_FOR_USER",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "UNKNOWN",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "ARCHIVE_PENDING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "UNKNOWN",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "ARCHIVING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "UNKNOWN",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "BLOCKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "UNKNOWN",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "CANCELLED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "UNKNOWN",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "FAILED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "UNKNOWN",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "READY_FOR_REVIEW",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "UNKNOWN",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "SUCCEEDED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "UNKNOWN",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "WAITING_FOR_USER",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "WAITING_FOR_CONTEXT",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "ANALYZING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "WAITING_FOR_CONTEXT",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "BLOCKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "WAITING_FOR_CONTEXT",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "CANCELLED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "WAITING_FOR_CONTEXT",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "TRIAGED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "WAITING_FOR_CONTEXT",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "WAITING_FOR_USER",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "WAITING_FOR_USER",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "ANALYZING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "WAITING_FOR_USER",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "BLOCKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "WAITING_FOR_USER",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "CANCELLED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "WAITING_FOR_USER",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "READY_FOR_REVIEW",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "WAITING_FOR_USER",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "WAITING_FOR_CONTEXT",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        }
+      ]
+    },
+    "Draft": {
+      "initial": "OPEN",
+      "states": [
+        "LOCKED",
+        "OPEN",
+        "REVOKED",
+        "STALE"
+      ],
+      "transitions": [
+        {
+          "from": "LOCKED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "OPEN",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "LOCKED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "REVOKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "LOCKED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "STALE",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "OPEN",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "LOCKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "OPEN",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "REVOKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "OPEN",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "STALE",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "STALE",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "OPEN",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "STALE",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "REVOKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        }
+      ]
+    },
+    "Execution": {
+      "initial": "RUNNING",
+      "states": [
+        "FAILED",
+        "RUNNING",
+        "SUCCEEDED",
+        "TIMEOUT"
+      ],
+      "transitions": [
+        {
+          "from": "RUNNING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "FAILED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "RUNNING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "SUCCEEDED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "RUNNING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "TIMEOUT",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        }
+      ]
+    },
+    "ExternalAction": {
+      "initial": "PREPARED",
+      "states": [
+        "AUTHORIZED",
+        "CANCELLED",
+        "FAILED_SAFE",
+        "IN_FLIGHT",
+        "PREPARED",
+        "SUCCEEDED",
+        "UNKNOWN"
+      ],
+      "transitions": [
+        {
+          "from": "AUTHORIZED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "CANCELLED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "AUTHORIZED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "IN_FLIGHT",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "AUTHORIZED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "PREPARED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "FAILED_SAFE",
+          "note": "重新批准后可再次准备",
+          "requires_no_irreversible": false,
+          "to": "AUTHORIZED",
+          "triggers": [
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "FAILED_SAFE",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "CANCELLED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "FAILED_SAFE",
+          "note": "重新批准后可再次准备",
+          "requires_no_irreversible": false,
+          "to": "PREPARED",
+          "triggers": [
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "IN_FLIGHT",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "FAILED_SAFE",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "IN_FLIGHT",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "SUCCEEDED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "IN_FLIGHT",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "UNKNOWN",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "PREPARED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "AUTHORIZED",
+          "triggers": [
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "PREPARED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "CANCELLED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "UNKNOWN",
+          "note": "需人工核实或用户裁决",
+          "requires_no_irreversible": false,
+          "to": "CANCELLED",
+          "triggers": [
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "UNKNOWN",
+          "note": "需人工核实或用户裁决",
+          "requires_no_irreversible": false,
+          "to": "FAILED_SAFE",
+          "triggers": [
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "UNKNOWN",
+          "note": "需人工核实或用户裁决",
+          "requires_no_irreversible": false,
+          "to": "SUCCEEDED",
+          "triggers": [
+            "USER",
+            "SYSTEM"
+          ]
+        }
+      ]
+    },
+    "IndexState": {
+      "initial": "PENDING",
+      "states": [
+        "FAILED",
+        "INDEXED",
+        "PENDING",
+        "REBUILD_REQUIRED",
+        "STALE"
+      ],
+      "transitions": [
+        {
+          "from": "FAILED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "INDEXED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "FAILED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "PENDING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "FAILED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "REBUILD_REQUIRED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "INDEXED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "PENDING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "INDEXED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "STALE",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "PENDING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "FAILED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "PENDING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "INDEXED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "PENDING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "STALE",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "REBUILD_REQUIRED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "FAILED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "REBUILD_REQUIRED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "INDEXED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "REBUILD_REQUIRED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "PENDING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "STALE",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "FAILED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "STALE",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "INDEXED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "STALE",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "REBUILD_REQUIRED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        }
+      ]
+    },
+    "Memory": {
+      "initial": "CANDIDATE",
+      "states": [
+        "CANDIDATE",
+        "ENABLED",
+        "PENDING_CONFIRMATION",
+        "REVOKED",
+        "SUPERSEDED"
+      ],
+      "transitions": [
+        {
+          "from": "CANDIDATE",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "PENDING_CONFIRMATION",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "CANDIDATE",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "REVOKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "ENABLED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "REVOKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "ENABLED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "SUPERSEDED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "PENDING_CONFIRMATION",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "CANDIDATE",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "PENDING_CONFIRMATION",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "ENABLED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "PENDING_CONFIRMATION",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "REVOKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "REVOKED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "ENABLED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "SUPERSEDED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "ENABLED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "SUPERSEDED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "REVOKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        }
+      ]
+    },
+    "Question": {
+      "initial": "OPEN",
+      "states": [
+        "ANSWERED",
+        "CLOSED",
+        "EXPIRED",
+        "OPEN"
+      ],
+      "transitions": [
+        {
+          "from": "ANSWERED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "CLOSED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "ANSWERED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "OPEN",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "EXPIRED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "CLOSED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "EXPIRED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "OPEN",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "OPEN",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "ANSWERED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "OPEN",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "CLOSED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "OPEN",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "EXPIRED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        }
+      ]
+    },
+    "RestoreJob": {
+      "initial": "PENDING",
+      "states": [
+        "CONFLICT",
+        "FAILED",
+        "PENDING",
+        "RUNNING",
+        "VERIFIED"
+      ],
+      "transitions": [
+        {
+          "from": "CONFLICT",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "FAILED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "CONFLICT",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "RUNNING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "CONFLICT",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "VERIFIED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "FAILED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "PENDING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "PENDING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "FAILED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "PENDING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "RUNNING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "RUNNING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "CONFLICT",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "RUNNING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "FAILED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "RUNNING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "VERIFIED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        }
+      ]
+    },
+    "Rule": {
+      "initial": "CANDIDATE",
+      "states": [
+        "CANDIDATE",
+        "ENABLED",
+        "PENDING_CONFIRMATION",
+        "REVOKED",
+        "SUPERSEDED"
+      ],
+      "transitions": [
+        {
+          "from": "CANDIDATE",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "PENDING_CONFIRMATION",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "CANDIDATE",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "REVOKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "ENABLED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "REVOKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "ENABLED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "SUPERSEDED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "PENDING_CONFIRMATION",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "CANDIDATE",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "PENDING_CONFIRMATION",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "ENABLED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "PENDING_CONFIRMATION",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "REVOKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "REVOKED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "ENABLED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "SUPERSEDED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "ENABLED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "SUPERSEDED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "REVOKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        }
+      ]
+    },
+    "Task": {
+      "initial": "PENDING",
+      "states": [
+        "BLOCKED",
+        "CANCELLED",
+        "DONE",
+        "FAILED",
+        "PENDING",
+        "READY",
+        "RETRY_WAIT",
+        "RUNNING",
+        "WAITING_USER"
+      ],
+      "transitions": [
+        {
+          "from": "BLOCKED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "CANCELLED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "BLOCKED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "PENDING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "BLOCKED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "READY",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "FAILED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "BLOCKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "FAILED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "CANCELLED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "FAILED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "READY",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "PENDING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "BLOCKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "PENDING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "CANCELLED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "PENDING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "READY",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "PENDING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "WAITING_USER",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "READY",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "BLOCKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "READY",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "CANCELLED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "READY",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "RETRY_WAIT",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "READY",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "RUNNING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "READY",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "WAITING_USER",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "RETRY_WAIT",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "BLOCKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "RETRY_WAIT",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "CANCELLED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "RETRY_WAIT",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "FAILED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "RETRY_WAIT",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "READY",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "RETRY_WAIT",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "RUNNING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "RUNNING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "BLOCKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "RUNNING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "DONE",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "RUNNING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "FAILED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "RUNNING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "RETRY_WAIT",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "RUNNING",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "WAITING_USER",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "WAITING_USER",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "BLOCKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "WAITING_USER",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "CANCELLED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "WAITING_USER",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "READY",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "WAITING_USER",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "RUNNING",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        }
+      ]
+    },
+    "Workflow": {
+      "initial": "CANDIDATE",
+      "states": [
+        "CANDIDATE",
+        "ENABLED",
+        "PENDING_CONFIRMATION",
+        "REVOKED",
+        "SUPERSEDED"
+      ],
+      "transitions": [
+        {
+          "from": "CANDIDATE",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "PENDING_CONFIRMATION",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "CANDIDATE",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "REVOKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "ENABLED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "REVOKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "ENABLED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "SUPERSEDED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "PENDING_CONFIRMATION",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "CANDIDATE",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "PENDING_CONFIRMATION",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "ENABLED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "PENDING_CONFIRMATION",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "REVOKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "REVOKED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "ENABLED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "SUPERSEDED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "ENABLED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "SUPERSEDED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "REVOKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        }
+      ]
+    },
+    "WorkflowVersion": {
+      "initial": "CANDIDATE",
+      "states": [
+        "CANDIDATE",
+        "ENABLED",
+        "PENDING_CONFIRMATION",
+        "REVOKED",
+        "SUPERSEDED"
+      ],
+      "transitions": [
+        {
+          "from": "CANDIDATE",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "PENDING_CONFIRMATION",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "CANDIDATE",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "REVOKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "ENABLED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "REVOKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "ENABLED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "SUPERSEDED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "PENDING_CONFIRMATION",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "CANDIDATE",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "PENDING_CONFIRMATION",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "ENABLED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "PENDING_CONFIRMATION",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "REVOKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "REVOKED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "ENABLED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "SUPERSEDED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "ENABLED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        },
+        {
+          "from": "SUPERSEDED",
+          "note": "",
+          "requires_no_irreversible": false,
+          "to": "REVOKED",
+          "triggers": [
+            "AGENT",
+            "USER",
+            "SYSTEM"
+          ]
+        }
+      ]
+    }
+  },
+  "objects": {
+    "ActionAttempt": {
+      "fields": [
+        "id",
+        "schema_version",
+        "revision",
+        "created_at",
+        "updated_at",
+        "links",
+        "action_id",
+        "attempt_no",
+        "request_idempotency_key",
+        "state",
+        "started_at",
+        "finished_at",
+        "executor_node",
+        "external_response",
+        "external_ref",
+        "failure_class",
+        "error_text"
+      ],
+      "object_type": "ActionAttempt"
+    },
+    "Answer": {
+      "fields": [
+        "id",
+        "schema_version",
+        "revision",
+        "created_at",
+        "updated_at",
+        "links",
+        "question_id",
+        "case_id",
+        "answer_text",
+        "answered_by",
+        "attachments"
+      ],
+      "object_type": "Answer"
+    },
+    "Approval": {
+      "fields": [
+        "id",
+        "schema_version",
+        "revision",
+        "created_at",
+        "updated_at",
+        "links",
+        "case_id",
+        "action_id",
+        "approver",
+        "approved_action_digest",
+        "target_object_ids",
+        "content_version_refs",
+        "evidence_digest",
+        "created_at_approval",
+        "expires_at",
+        "state",
+        "consumed_by_attempt_id",
+        "reserved_at",
+        "revoked_reason",
+        "invalidated_reason",
+        "auth_channel",
+        "auth_evidence",
+        "summary_shown"
+      ],
+      "object_type": "Approval"
+    },
+    "ArchiveJob": {
+      "fields": [
+        "id",
+        "schema_version",
+        "revision",
+        "created_at",
+        "updated_at",
+        "links",
+        "archive_id",
+        "scope",
+        "scope_ref",
+        "manifest_id",
+        "state",
+        "policy_id",
+        "policy_version",
+        "trigger",
+        "started_at",
+        "finished_at",
+        "last_attempt_at",
+        "attempt_count",
+        "uploaded",
+        "pending",
+        "failed",
+        "verified_files",
+        "unverified_reason",
+        "remote_root",
+        "error_text"
+      ],
+      "object_type": "ArchiveJob"
+    },
+    "ArchiveManifest": {
+      "fields": [
+        "id",
+        "schema_version",
+        "revision",
+        "created_at",
+        "updated_at",
+        "links",
+        "archive_id",
+        "scope",
+        "scope_ref",
+        "created_at_manifest",
+        "entries",
+        "source_versions",
+        "policy_id",
+        "policy_version",
+        "code_version",
+        "contract_version",
+        "rule_version",
+        "workflow_version",
+        "excluded",
+        "secret_scan",
+        "manifest_digest",
+        "remote_root"
+      ],
+      "object_type": "ArchiveManifest"
+    },
+    "AuditEvent": {
+      "fields": [
+        "id",
+        "schema_version",
+        "revision",
+        "created_at",
+        "updated_at",
+        "links",
+        "at",
+        "action",
+        "actor_kind",
+        "actor_id",
+        "execution_id",
+        "case_id",
+        "object_type",
+        "object_id",
+        "result",
+        "version_before",
+        "version_after",
+        "content_hash",
+        "reason",
+        "caller",
+        "correlation_id",
+        "voids_event_id",
+        "detail"
+      ],
+      "object_type": "AuditEvent"
+    },
+    "Case": {
+      "fields": [
+        "id",
+        "schema_version",
+        "revision",
+        "created_at",
+        "updated_at",
+        "links",
+        "trigger_event_id",
+        "goal",
+        "state",
+        "archive_state",
+        "participants",
+        "organization_ids",
+        "conversation_ids",
+        "source_document_ids",
+        "fact_ids",
+        "inference_ids",
+        "rule_ids",
+        "task_ids",
+        "draft_ids",
+        "question_ids",
+        "approval_ids",
+        "action_ids",
+        "attempt_ids",
+        "archive_job_ids",
+        "audit_event_ids",
+        "waiting_reason",
+        "next_action",
+        "last_action_summary",
+        "blocked_reason",
+        "failure_class",
+        "result_summary",
+        "completed_at"
+      ],
+      "object_type": "Case"
+    },
+    "ContactPoint": {
+      "fields": [
+        "id",
+        "schema_version",
+        "revision",
+        "created_at",
+        "updated_at",
+        "links",
+        "kind",
+        "value",
+        "person_id",
+        "verified"
+      ],
+      "object_type": "ContactPoint"
+    },
+    "Conversation": {
+      "fields": [
+        "id",
+        "schema_version",
+        "revision",
+        "created_at",
+        "updated_at",
+        "links",
+        "channel",
+        "subject",
+        "thread_key",
+        "participant_ids",
+        "case_ids",
+        "source_document_ids",
+        "message_count",
+        "last_message_at"
+      ],
+      "object_type": "Conversation"
+    },
+    "Draft": {
+      "fields": [
+        "id",
+        "schema_version",
+        "revision",
+        "created_at",
+        "updated_at",
+        "links",
+        "case_id",
+        "target_kind",
+        "target_ref",
+        "state",
+        "current_version_id",
+        "version_ids"
+      ],
+      "object_type": "Draft"
+    },
+    "DraftVersion": {
+      "fields": [
+        "id",
+        "schema_version",
+        "revision",
+        "created_at",
+        "updated_at",
+        "links",
+        "draft_id",
+        "version_no",
+        "body",
+        "content_hash",
+        "author_kind",
+        "author_id",
+        "change_reason",
+        "target_object_id",
+        "summary",
+        "citations",
+        "parent_version_id"
+      ],
+      "object_type": "DraftVersion"
+    },
+    "Event": {
+      "fields": [
+        "id",
+        "schema_version",
+        "revision",
+        "created_at",
+        "updated_at",
+        "links",
+        "kind",
+        "source",
+        "source_event_id",
+        "occurred_at",
+        "received_at",
+        "event_schema_version",
+        "case_id",
+        "conversation_id",
+        "dedupe_key",
+        "payload",
+        "processed_at",
+        "processing_result"
+      ],
+      "object_type": "Event"
+    },
+    "Execution": {
+      "fields": [
+        "id",
+        "schema_version",
+        "revision",
+        "created_at",
+        "updated_at",
+        "links",
+        "case_id",
+        "task_id",
+        "backend",
+        "model",
+        "state",
+        "inputs_digest",
+        "input_summary",
+        "output_summary",
+        "tool_call_ids",
+        "read_object_ids",
+        "write_object_ids",
+        "token_usage",
+        "cost",
+        "started_at",
+        "finished_at",
+        "failure_class",
+        "error_text"
+      ],
+      "object_type": "Execution"
+    },
+    "ExternalAction": {
+      "fields": [
+        "id",
+        "schema_version",
+        "revision",
+        "created_at",
+        "updated_at",
+        "links",
+        "case_id",
+        "kind",
+        "state",
+        "idempotency_key",
+        "action_summary",
+        "summary_digest",
+        "target_ref",
+        "connector",
+        "approval_id",
+        "attempt_ids",
+        "claimed_by",
+        "claimed_at",
+        "prepared_at",
+        "finalized_at",
+        "result_class",
+        "blocking_reason"
+      ],
+      "object_type": "ExternalAction"
+    },
+    "Fact": {
+      "fields": [
+        "id",
+        "schema_version",
+        "revision",
+        "created_at",
+        "updated_at",
+        "links",
+        "case_id",
+        "subject",
+        "statement",
+        "content_kind",
+        "citations",
+        "temporal_fields",
+        "confirmed_by_user",
+        "source_system"
+      ],
+      "object_type": "Fact"
+    },
+    "FileArtifact": {
+      "fields": [
+        "id",
+        "schema_version",
+        "revision",
+        "created_at",
+        "updated_at",
+        "links",
+        "case_id",
+        "path",
+        "name",
+        "size_bytes",
+        "sha256",
+        "content_type",
+        "version",
+        "generated_at",
+        "permission",
+        "download_count",
+        "transfer_failures"
+      ],
+      "object_type": "FileArtifact"
+    },
+    "Inference": {
+      "fields": [
+        "id",
+        "schema_version",
+        "revision",
+        "created_at",
+        "updated_at",
+        "links",
+        "case_id",
+        "statement",
+        "content_kind",
+        "based_on_fact_ids",
+        "confidence",
+        "alternatives",
+        "produced_by_execution_id",
+        "candidate_only"
+      ],
+      "object_type": "Inference"
+    },
+    "Memory": {
+      "fields": [
+        "id",
+        "schema_version",
+        "revision",
+        "created_at",
+        "updated_at",
+        "links",
+        "asset_kind",
+        "statement",
+        "state",
+        "scope",
+        "scope_ref",
+        "source_case_id",
+        "confirmed_by",
+        "confirmed_at",
+        "version",
+        "superseded_by",
+        "valid_until"
+      ],
+      "object_type": "Memory"
+    },
+    "Organization": {
+      "fields": [
+        "id",
+        "schema_version",
+        "revision",
+        "created_at",
+        "updated_at",
+        "links",
+        "name",
+        "domains",
+        "notes_path",
+        "confidence",
+        "confirmed_by_user"
+      ],
+      "object_type": "Organization"
+    },
+    "Person": {
+      "fields": [
+        "id",
+        "schema_version",
+        "revision",
+        "created_at",
+        "updated_at",
+        "links",
+        "display_name",
+        "contact_point_ids",
+        "organization_ids",
+        "notes_path",
+        "confidence",
+        "confirmed_by_user"
+      ],
+      "object_type": "Person"
+    },
+    "Question": {
+      "fields": [
+        "id",
+        "schema_version",
+        "revision",
+        "created_at",
+        "updated_at",
+        "links",
+        "case_id",
+        "question",
+        "background",
+        "kind",
+        "required_format",
+        "affects",
+        "deadline",
+        "state",
+        "answer_id",
+        "asked_by_execution_id"
+      ],
+      "object_type": "Question"
+    },
+    "RestoreJob": {
+      "fields": [
+        "id",
+        "schema_version",
+        "revision",
+        "created_at",
+        "updated_at",
+        "links",
+        "archive_id",
+        "state",
+        "isolate_dir",
+        "read_only_mode",
+        "approvals_invalidated",
+        "replay_forbidden",
+        "verified_files",
+        "hash_mismatches",
+        "conflicts",
+        "requested_by",
+        "started_at",
+        "finished_at",
+        "reindex_done",
+        "git_history_restored",
+        "note"
+      ],
+      "object_type": "RestoreJob"
+    },
+    "Rule": {
+      "fields": [
+        "id",
+        "schema_version",
+        "revision",
+        "created_at",
+        "updated_at",
+        "links",
+        "statement",
+        "state",
+        "version",
+        "scope",
+        "scope_ref",
+        "priority",
+        "source_case_id",
+        "source_user_message",
+        "examples",
+        "confirmed_by",
+        "confirmed_at",
+        "effective_from",
+        "revoked_at",
+        "superseded_by",
+        "git_commit"
+      ],
+      "object_type": "Rule"
+    },
+    "SharedObject": {
+      "fields": [
+        "id",
+        "schema_version",
+        "revision",
+        "created_at",
+        "updated_at",
+        "links"
+      ],
+      "object_type": "SharedObject"
+    },
+    "SourceDocument": {
+      "fields": [
+        "id",
+        "schema_version",
+        "revision",
+        "created_at",
+        "updated_at",
+        "links",
+        "source_type",
+        "source_system",
+        "source_id",
+        "identity_key",
+        "origin_path",
+        "mime_type",
+        "size_bytes",
+        "content_hash",
+        "content_origin",
+        "content_version",
+        "received_at",
+        "readable",
+        "index_state",
+        "index_error",
+        "last_indexed_at",
+        "archive_state",
+        "conversation_id",
+        "case_id",
+        "thread_keys",
+        "mailbox_folder",
+        "vendor_message_id"
+      ],
+      "object_type": "SourceDocument"
+    },
+    "Task": {
+      "fields": [
+        "id",
+        "schema_version",
+        "revision",
+        "created_at",
+        "updated_at",
+        "links",
+        "case_id",
+        "kind",
+        "title",
+        "state",
+        "assignee",
+        "inputs",
+        "preconditions",
+        "outputs",
+        "depends_on",
+        "retry_policy",
+        "attempt_count",
+        "timeout_at",
+        "next_run_at",
+        "last_error",
+        "failure_class",
+        "execution_ids"
+      ],
+      "object_type": "Task"
+    },
+    "ToolCall": {
+      "fields": [
+        "id",
+        "schema_version",
+        "revision",
+        "created_at",
+        "updated_at",
+        "links",
+        "execution_id",
+        "tool",
+        "args_digest",
+        "started_at",
+        "finished_at",
+        "result",
+        "failure_class",
+        "note"
+      ],
+      "object_type": "ToolCall"
+    },
+    "Workflow": {
+      "fields": [
+        "id",
+        "schema_version",
+        "revision",
+        "created_at",
+        "updated_at",
+        "links",
+        "name",
+        "description",
+        "current_version_id",
+        "state"
+      ],
+      "object_type": "Workflow"
+    },
+    "WorkflowVersion": {
+      "fields": [
+        "id",
+        "schema_version",
+        "revision",
+        "created_at",
+        "updated_at",
+        "links",
+        "workflow_id",
+        "version",
+        "trigger_conditions",
+        "inputs",
+        "steps",
+        "question_points",
+        "approval_points",
+        "outputs",
+        "archive_requirements",
+        "failure_handling",
+        "scope",
+        "source_case_id",
+        "confirmed_by",
+        "state"
+      ],
+      "object_type": "WorkflowVersion"
+    }
+  },
+  "schema_version": 1,
+  "states": {
+    "ActionState": [
+      "PREPARED",
+      "AUTHORIZED",
+      "IN_FLIGHT",
+      "SUCCEEDED",
+      "FAILED_SAFE",
+      "UNKNOWN",
+      "CANCELLED"
+    ],
+    "ActorKind": [
+      "USER",
+      "AGENT",
+      "SYSTEM",
+      "EXTERNAL"
+    ],
+    "ApprovalState": [
+      "ACTIVE",
+      "CONSUMED",
+      "REVOKED",
+      "EXPIRED",
+      "INVALIDATED"
+    ],
+    "ArchiveState": [
+      "PENDING",
+      "UPLOADING",
+      "PARTIAL",
+      "VERIFYING",
+      "PENDING_VERIFICATION",
+      "VERIFIED",
+      "FAILED"
+    ],
+    "AssetKind": [
+      "PERSONAL_FACT",
+      "CONTACT_PROFILE",
+      "PREFERENCE",
+      "BEHAVIOR_RULE",
+      "CASE_MEMORY",
+      "WORKFLOW",
+      "SKILL",
+      "EPHEMERAL"
+    ],
+    "AuditAction": [
+      "CREATE",
+      "UPDATE",
+      "TRANSITION",
+      "REJECT",
+      "READ",
+      "WRITE",
+      "APPROVE",
+      "REVOKE",
+      "EXECUTE",
+      "RETRY",
+      "ARCHIVE",
+      "RESTORE",
+      "CORRECTION",
+      "VOID"
+    ],
+    "CaseState": [
+      "NEW",
+      "TRIAGED",
+      "WAITING_FOR_CONTEXT",
+      "ANALYZING",
+      "WAITING_FOR_USER",
+      "READY_FOR_REVIEW",
+      "APPROVED",
+      "EXECUTING",
+      "SUCCEEDED",
+      "FAILED",
+      "UNKNOWN",
+      "ARCHIVING",
+      "ARCHIVE_PENDING",
+      "COMPLETED",
+      "BLOCKED",
+      "CANCELLED"
+    ],
+    "ContentKind": [
+      "FACT",
+      "INFERENCE",
+      "UNCERTAIN"
+    ],
+    "DraftState": [
+      "OPEN",
+      "LOCKED",
+      "STALE",
+      "REVOKED"
+    ],
+    "EventKind": [
+      "MAIL_RECEIVED",
+      "CONSOLE_MESSAGE",
+      "KNOWLEDGE_CHANGED",
+      "SCHEDULED_ARCHIVE",
+      "CASE_CREATED",
+      "STATE_CHANGED"
+    ],
+    "ExecutionState": [
+      "RUNNING",
+      "SUCCEEDED",
+      "FAILED",
+      "TIMEOUT"
+    ],
+    "FailureClass": [
+      "INVALID_INPUT",
+      "MISSING_DATA",
+      "RULE_CONFLICT",
+      "MODEL_FAILURE",
+      "TOOL_FAILURE",
+      "NETWORK_FAILURE",
+      "PERMISSION_FAILURE",
+      "EXTERNAL_UNKNOWN",
+      "APPROVAL_EXPIRED",
+      "INDEX_FAILURE",
+      "ARCHIVE_FAILURE",
+      "SYSTEM_CRASH"
+    ],
+    "IndexState": [
+      "PENDING",
+      "STALE",
+      "INDEXED",
+      "FAILED",
+      "REBUILD_REQUIRED"
+    ],
+    "MailboxRole": [
+      "FACTS",
+      "INFERENCE",
+      "CANDIDATE"
+    ],
+    "PermissionDecision": [
+      "AUTO",
+      "REQUIRE_APPROVAL",
+      "FORBIDDEN"
+    ],
+    "QuestionState": [
+      "OPEN",
+      "ANSWERED",
+      "CLOSED",
+      "EXPIRED"
+    ],
+    "RestoreState": [
+      "PENDING",
+      "RUNNING",
+      "VERIFIED",
+      "CONFLICT",
+      "FAILED"
+    ],
+    "RuleState": [
+      "CANDIDATE",
+      "PENDING_CONFIRMATION",
+      "ENABLED",
+      "SUPERSEDED",
+      "REVOKED"
+    ],
+    "TaskState": [
+      "PENDING",
+      "READY",
+      "RUNNING",
+      "WAITING_USER",
+      "RETRY_WAIT",
+      "DONE",
+      "FAILED",
+      "BLOCKED",
+      "CANCELLED"
+    ]
+  }
+}

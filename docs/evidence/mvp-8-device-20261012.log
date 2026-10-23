@@ -1,0 +1,484 @@
+# MVP-8 真机取证原始输出（未删改）
+# 设备		 : board (board-host, aarch64, Linux 6.1.43-rockchip-rk3588)
+# 时间		 : 2026-10-12T08:29+08:00
+# 设备提交 : 198f442（部署脚本六层校验通过后立刻取证）
+# 命令		 : cd ~/code/asistent && sh tests/service/device_run.sh ~/code/asistent
+# 退出码	 : 0（日志末尾 “=== 取证完成 ===”）
+# 说明		 : 该脚本只写 $HOME/asistent-var 与它自己的临时目录，不触碰 ~/code/asistent。
+#			   mail.source=fixture / outbound.channel=scripted / archive.channel=bdpan：
+#			   离线通道是**取证**用的，不代表真实网盘或真实邮箱能力。
+------------------------------------------------------------------------------
+
+=== 0) 环境事实 ===
+
+$ uname -a
+Linux board-host 6.1.43-rockchip-rk3588 #1.0.0 SMP Mon Jul  8 11:54:40 CST 2024 aarch64 aarch64 aarch64 GNU/Linux
+
+$ python3 -V
+Python 3.10.12
+
+$ python3 -c import sqlite3,sys; print("sqlite", sqlite3.sqlite_version); print("fts5", bool(sqlite3.connect(":memory:").execute("select 1 from pragma_compile_options where compile_options like \"%FTS5%\"").fetchone()))
+sqlite 3.37.2
+fts5 True
+
+$ systemctl --version
+systemd 249 (249.11-0ubuntu3.12)
++PAM +AUDIT +SELINUX +APPARMOR +IMA +SMACK +SECCOMP +GCRYPT +GNUTLS +OPENSSL +ACL +BLKID +CURL +ELFUTILS +FIDO2 +IDN2 -IDN +IPTC +KMOD +LIBCRYPTSETUP +LIBFDISK +PCRE2 -PWQUALITY -P11KIT -QRENCODE +BZIP2 +LZ4 +XZ +ZLIB +ZSTD -XKBCOMMON +UTMP +SYSVINIT default-hierarchy=unified
+
+$ loginctl show-user asistent
+UID=1000
+GID=1000
+Name=asistent
+Timestamp=Sat 2026-10-10 17:17:03 CST
+TimestampMonotonic=6140291
+RuntimePath=/run/user/1000
+Service=user@1000.service
+Slice=user-1000.slice
+Display=c1
+State=active
+Sessions=42 3 4 c1
+IdleHint=no
+IdleSinceHint=0
+IdleSinceHintMonotonic=0
+Linger=yes
+/usr/bin/setsid
+
+$ setsid --version
+setsid from util-linux 2.37.2
+
+$ crontab -l
+no crontab for asistent
+（没有 crontab，属正常）
+
+(bdpan 授权探测，只读)
+bdpan 不在 PATH（未授权/未安装都属已知状态）
+
+$ df -h /home/asistent/asistent-var
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/nvme0n1p2  116G  7.3G  107G   7% /
+
+=== 1) 准备运行数据目录 ===
+total 4
+-rw-rw-r-- 1 asistent asistent 622 Oct 12 08:26 05-reply-needed-ok.eml
+
+=== 2) 写仓库外配置（/home/asistent/asistent-var/config/service.json） ===
+已存在，先备份到 /home/asistent/asistent-var/config/service.json.bak.12835
+
+$ ls -l /home/asistent/asistent-var/config/service.json
+-rw------- 1 asistent asistent 1204 Oct 12 08:29 /home/asistent/asistent-var/config/service.json
+
+=== 3) 单轮（同一份实现；原始轮次报告） ===
+
+$ python3 -X utf8 -m asistent.service --once --json --config /home/asistent/asistent-var/config/service.json
+[service] 启动 run_id=exec_7a8275dc473c4cc88be63d45ea793e1d 模式=once
+[service] 配置 {"archive": {"channel": "bdpan", "enabled": true, "root": "/home/asistent/asistent-var/config/个人助手归档", "staging_root": "/home/asistent/asistent-var/archive/staging"}, "batch_limit": 50, "config_path": "/home/asistent/asistent-var/config/service.json", "console": {"allow_remote": false, "bind": "127.0.0.1", "enabled": true, "port": 18090, "token_path": "/home/asistent/asistent-var/config/console-token", "token_present": true}, "db_path": "/home/asistent/asistent-var/data/asistent.db", "ingest": {"enabled": false, "index_path": "/home/asistent/asistent-var/index/fts.db", "max_bytes": 2097152, "roots": []}, "interval_seconds": 5, "mail": {"account": "parent@example.com", "enabled": true, "fixture_dir": "/home/asistent/asistent-var/mail-cases", "folder": "INBOX", "raw_root": "/home/asistent/asistent-var/raw", "source": "fixture", "state_path": "/home/asistent/asistent-var/state/mail-sync.json"}, "max_rounds": 0, "outbound": {"channel": "scripted", "enabled": true, "from_account": "parent@example.com", "node": "board", "will_attempt_send": true}, "resolve_answers": true, "state_dir": "/home/asistent/asistent-var/state", "store": "sqlite", "var_root": "/home/asistent/asistent-var"}
+[round 1] recover     OK   {"case_ids_reconciled": [], "demoted_action_ids": [], "pending_decision_action_ids": [], "resent_action_ids": [], "sender_call_count": 0, "unknown_action_ids": []}
+[round 1] sweep       OK   {"expired_approval_ids": []}
+[round 1] sync        OK   {"aborted_reason": null, "account": "parent@example.com", "complete": true, "cursor_after": "1", "documents_created": 1, "documents_updated": 0, "duplicates_skipped": 0, "failed": 0, "folder": "INBOX", "listed": 1, "result": "OK"}
+[round 1] ingest      OK   {"freshness": {"fts_documents": 1, "fts_search_rows": 1, "index_state_rows": [{"content_hash": "820926c70e9d4e1cf7943a9eca9d490ca355cf6cfa74f21543cb0ecc8850c47f", "content_version": 1, "doc_id": "doc_a419e095f19b94807bdf1124", "error": null, "index_state": "INDEXED", "indexed_at": "2026-10-12T00:29:37.832Z", "path": "/home/asistent/asistent-var/raw/parent_example.com/7cd7002eff9062cafb28a8e4f7257d
+[round 1] understand  OK   {"analyzed": [{"case_id": "case_61a5981f4fa4ff562237463d", "case_state": "READY_FOR_REVIEW", "counts": {"Draft": 1, "DraftVersion": 1, "Fact": 4, "Inference": 1, "Task": 1}, "document_id": "doc_a419e095f19b94807bdf1124", "draftable": true, "growth_summary": "growth doc=doc_a419e095f19b94807bdf1124 case=case_61a5981f4fa4ff562237463d 命中=0 应用=0 冲突=0", "resolved_question_count": 0, "rule_hits": [], "s
+[round 1] prepare     OK   {"prepared": [], "skipped": [{"case_id": "case_61a5981f4fa4ff562237463d", "why": "用户尚未批准当前版本 dv_2be70a0c7b4b26d753d3c095"}], "skipped_count": 1}
+[round 1] outbound    OK   {"executed": [], "sender_call_count": 0}
+[round 1] archive     OK   {"archived": [], "failed": []}
+[round 1] round=1 OK phases=8 failed=- pending={"actions_authorized": 0, "actions_in_flight": 0, "actions_unknown": 0, "approvals_active": 0, "archive_pending": 0, "cases_awaiting_approval": 1, "cases_open": 1, "cases_total": 1, "drafts_open": 1, "questions_open": 0, "tasks_open": 1} waiting=approval sender_calls=0 | -
+[
+  {
+    "finished_at": "2026-10-12T00:29:37.973Z",
+    "notes": [
+      "健康快照：已更新（artifact=file_612fe3a9b77522a3bbafaa55 version=1）"
+    ],
+    "ok": true,
+    "pending": {
+      "actions_authorized": 0,
+      "actions_in_flight": 0,
+      "actions_unknown": 0,
+      "approvals_active": 0,
+      "archive_pending": 0,
+      "cases_awaiting_approval": 1,
+      "cases_open": 1,
+      "cases_total": 1,
+      "drafts_open": 1,
+      "questions_open": 0,
+      "tasks_open": 1
+    },
+    "phases": [
+      {
+        "detail": {
+          "case_ids_reconciled": [],
+          "demoted_action_ids": [],
+          "pending_decision_action_ids": [],
+          "resent_action_ids": [],
+          "sender_call_count": 0,
+          "unknown_action_ids": []
+        },
+        "error_class": "",
+        "error_text": "",
+        "name": "recover",
+        "ok": true,
+        "skipped": ""
+      },
+      {
+        "detail": {
+          "expired_approval_ids": []
+        },
+        "error_class": "",
+        "error_text": "",
+        "name": "sweep",
+        "ok": true,
+        "skipped": ""
+      },
+      {
+        "detail": {
+          "aborted_reason": null,
+          "account": "parent@example.com",
+          "complete": true,
+          "cursor_after": "1",
+          "documents_created": 1,
+          "documents_updated": 0,
+          "duplicates_skipped": 0,
+          "failed": 0,
+          "folder": "INBOX",
+          "listed": 1,
+          "result": "OK"
+        },
+        "error_class": "",
+        "error_text": "",
+        "name": "sync",
+        "ok": true,
+        "skipped": ""
+      },
+      {
+        "detail": {
+          "freshness": {
+            "fts_documents": 1,
+            "fts_search_rows": 1,
+            "index_state_rows": [
+              {
+                "content_hash": "820926c70e9d4e1cf7943a9eca9d490ca355cf6cfa74f21543cb0ecc8850c47f",
+                "content_version": 1,
+                "doc_id": "doc_a419e095f19b94807bdf1124",
+                "error": null,
+                "index_state": "INDEXED",
+                "indexed_at": "2026-10-12T00:29:37.832Z",
+                "path": "/home/asistent/asistent-var/raw/parent_example.com/7cd7002eff9062cafb28a8e4f7257de8/g1-820926c70e9d4e1c.eml"
+              }
+            ],
+            "pending_index_document_ids": [],
+            "snapshot_bytes": 0,
+            "snapshot_files": 0
+          },
+          "index": {
+            "documents": 1,
+            "failed": 0,
+            "indexed": 1
+          }
+        },
+        "error_class": "",
+        "error_text": "",
+        "name": "ingest",
+        "ok": true,
+        "skipped": ""
+      },
+      {
+        "detail": {
+          "analyzed": [
+            {
+              "case_id": "case_61a5981f4fa4ff562237463d",
+              "case_state": "READY_FOR_REVIEW",
+              "counts": {
+                "Draft": 1,
+                "DraftVersion": 1,
+                "Fact": 4,
+                "Inference": 1,
+                "Task": 1
+              },
+              "document_id": "doc_a419e095f19b94807bdf1124",
+              "draftable": true,
+              "growth_summary": "growth doc=doc_a419e095f19b94807bdf1124 case=case_61a5981f4fa4ff562237463d 命中=0 应用=0 冲突=0",
+              "resolved_question_count": 0,
+              "rule_hits": [],
+              "summary": "case=case_61a5981f4fa4ff562237463d state=READY_FOR_REVIEW doc=doc_a419e095f19b94807bdf1124 Draft+1 DraftVersion+1 Fact+4 Inference+1 Task+1 draftable=True duplicate=False"
+            }
+          ],
+          "skipped": [],
+          "skipped_count": 0
+        },
+        "error_class": "",
+        "error_text": "",
+        "name": "understand",
+        "ok": true,
+        "skipped": ""
+      },
+      {
+        "detail": {
+          "prepared": [],
+          "skipped": [
+            {
+              "case_id": "case_61a5981f4fa4ff562237463d",
+              "why": "用户尚未批准当前版本 dv_2be70a0c7b4b26d753d3c095"
+            }
+          ],
+          "skipped_count": 1
+        },
+        "error_class": "",
+        "error_text": "",
+        "name": "prepare",
+        "ok": true,
+        "skipped": ""
+      },
+      {
+        "detail": {
+          "executed": [],
+          "sender_call_count": 0
+        },
+        "error_class": "",
+        "error_text": "",
+        "name": "outbound",
+        "ok": true,
+        "skipped": ""
+      },
+      {
+        "detail": {
+          "archived": [],
+          "failed": []
+        },
+        "error_class": "",
+        "error_text": "",
+        "name": "archive",
+        "ok": true,
+        "skipped": ""
+      }
+    ],
+    "round_index": 1,
+    "sender_call_count": 0,
+    "started_at": "2026-10-12T00:29:37.775Z",
+    "submit_count_on_disk": 0,
+    "waiting_on": [
+      "approval"
+    ]
+  }
+]
+
+=== 4) 启动器自检 + systemd unit ===
+
+$ sh /home/asistent/code/asistent/scripts/run-service.sh doctor
+== 服务自检 ==
+仓库           : /home/asistent/code/asistent
+运行根目录     : /home/asistent/asistent-var (drwx------)
+配置文件       : /home/asistent/asistent-var/config/service.json (存在)
+python         : Python 3.10.12 (/usr/bin/python3)
+store 后端     : sqlite
+setsid         : /usr/bin/setsid
+crontab        : /usr/bin/crontab
+bdpan          : 不在 PATH (~/.local/bin/bdpan 存在)
+bdpan 授权目录 : 不存在（未授权：归档前会显式 NOT_AUTHORIZED）
+控制台令牌     : -rw-------
+已部署软件版本 : 198f442
+FTS5           : OK 3.37.2
+运行中         : 否
+
+$ sh /home/asistent/code/asistent/scripts/run-service.sh unit-file
+# MVP-8 常驻服务（用户级 unit；设备已 enable-linger，不需要 sudo）
+#
+# 安装（设备上执行）：
+#   mkdir -p ~/.config/systemd/user
+#   /home/asistent/code/asistent/scripts/run-service.sh unit-file > ~/.config/systemd/user/asistent.service
+#   systemctl --user daemon-reload
+#   systemctl --user enable --now asistent.service
+#   systemctl --user status asistent.service
+#
+# 崩溃自动重启（Restart=always）。**重启不会重发**：新一轮先把
+# IN_FLIGHT 的外部动作降级为 UNKNOWN 并从存储重算该做什么，
+# 已提交给通道的动作绝不会因为进程重启而再发一次（见 docs/mvp/mvp-8.md §崩溃自愈）。
+#
+# 凭据纪律：本 unit 里**没有**任何口令/授权码/令牌；服务自己从
+# /home/asistent/asistent-var/config/console-token（600）与
+# /home/asistent/asistent-var/bin/set-mail-authcode.sh（700）之外的文件读取，内容不进日志。
+[Unit]
+Description=asistent 24h 常驻服务（邮件→理解→草稿→审批→外发→归档）
+Documentation=file:///home/asistent/code/asistent/docs/mvp/mvp-8.md
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/asistent/code/asistent
+Environment=PYTHONUTF8=1
+Environment=PYTHONIOENCODING=utf-8
+Environment=PYTHONPATH=/home/asistent/code/asistent
+Environment=ASISTENT_VAR=/home/asistent/asistent-var
+Environment=ASISTENT_STORE=sqlite
+ExecStart=/usr/bin/python3 -X utf8 -m asistent.service --loop --console --max-rounds 0 --config /home/asistent/asistent-var/config/service.json
+StandardOutput=append:/home/asistent/asistent-var/logs/service.log
+StandardError=append:/home/asistent/asistent-var/logs/service.log
+Restart=always
+RestartSec=5
+# 不因为"短时间重启太多次"而放弃：宁可慢一点重启，也不要静默死掉
+StartLimitIntervalSec=0
+KillSignal=SIGTERM
+TimeoutStopSec=90
+# 运行数据只在 /home/asistent/asistent-var 里：unit 不给额外写权限
+NoNewPrivileges=yes
+PrivateTmp=yes
+
+[Install]
+WantedBy=default.target
+
+(systemd 语法校验，可缺)
+Configuration file /lib/systemd/system/rkaiq_3A.service is marked executable. Please remove executable permission bits. Proceeding anyway.
+Configuration file /lib/systemd/system/rkaiq_3A.service is marked world-writable. Please remove world writability permission bits. Proceeding anyway.
+/home/asistent/asistent-var/systemd/asistent.service:37: Unknown key name 'StartLimitIntervalSec' in section 'Service', ignoring.
+
+=== 5) 常驻启动（setsid 降级方式）+ 连跑两轮 + 状态 ===
+
+$ sh /home/asistent/code/asistent/scripts/run-service.sh start
+服务已启动：pid=13982（日志 /home/asistent/asistent-var/logs/service.log）
+控制台：127.0.0.1:18090（手机端同地址 + 令牌）
+
+$ sh /home/asistent/code/asistent/scripts/run-service.sh status
+进程：运行中 pid=13982
+服务状态（run_id=exec_8e84a58d94124719af60b748c2096fef pid=14156）
+  存储后端      : SqliteStore
+  轮次          : 完成 4 次 / 失败 0 次（最近 2026-10-12T00:29:50.361Z）
+  轮次间隔      : 5s
+  最近同步      : {"aborted_reason": null, "account": "parent@example.com", "at": "2026-10-12T00:29:50.361Z", "complete": true, "cursor_after": "1", "documents_created": 0, "documents_updated": 0, "duplicates_skipped": 0, "failed": 0, "folder": "INBOX", "listed": 0, "ok": true, "result": "OK", "skipped": ""}
+  待处理        : {"actions_authorized": 0, "actions_in_flight": 0, "actions_unknown": 0, "approvals_active": 0, "archive_pending": 0, "cases_awaiting_approval": 1, "cases_open": 1, "cases_total": 1, "drafts_open": 1, "questions_open": 0, "tasks_open": 1}
+  正在等        : approval
+  最近错误      : -
+  阶段失败计数  : {}
+  外发调用次数  : 0（账本 submit=0）
+  说明          : 重启恢复：从 /home/asistent/asistent-var/state/service-state.json 接续历史计数（累计完成 4 轮 / 失败 0 轮，上一轮 2026-10-12T00:29:50.361Z）
+  说明          : ingest.enabled=false：不扫描挂载目录（只索引邮件原文）
+  说明          : archive.channel=bdpan：真实通道；未授权时必须返回 NOT_AUTHORIZED（用户动作 U-2）
+
+$ sh -c tail -n 25 '/home/asistent/asistent-var/logs/service.log'
+[round 1] sync        OK   {"aborted_reason": null, "account": "parent@example.com", "complete": true, "cursor_after": "1", "documents_created": 0, "documents_updated": 0, "duplicates_skipped": 0, "failed": 0, "folder": "INBOX", "listed": 0, "result": "OK"}
+[round 1] ingest      OK   {"freshness": {"fts_documents": 1, "fts_search_rows": 1, "index_state_rows": [{"content_hash": "820926c70e9d4e1cf7943a9eca9d490ca355cf6cfa74f21543cb0ecc8850c47f", "content_version": 1, "doc_id": "doc_a419e095f19b94807bdf1124", "error": null, "index_state": "INDEXED", "indexed_at": "2026-10-12T00:29:37.832Z", "path": "/home/asistent/asistent-var/raw/parent_example.com/7cd7002eff9062cafb28a8e4f7257d
+[round 1] understand  OK   {"analyzed": [], "skipped": [{"case_id": "case_61a5981f4fa4ff562237463d", "why": "state=READY_FOR_REVIEW 不在需要理解的状态集合里"}], "skipped_count": 1}
+[round 1] prepare     OK   {"prepared": [], "skipped": [{"case_id": "case_61a5981f4fa4ff562237463d", "why": "用户尚未批准当前版本 dv_2be70a0c7b4b26d753d3c095"}], "skipped_count": 1}
+[round 1] outbound    OK   {"executed": [], "sender_call_count": 0}
+[round 1] archive     OK   {"archived": [], "failed": []}
+[round 1] round=1 OK phases=8 failed=- pending={"actions_authorized": 0, "actions_in_flight": 0, "actions_unknown": 0, "approvals_active": 0, "archive_pending": 0, "cases_awaiting_approval": 1, "cases_open": 1, "cases_total": 1, "drafts_open": 1, "questions_open": 0, "tasks_open": 1} waiting=approval sender_calls=0 | -
+[round 2] recover     OK   {"case_ids_reconciled": [], "demoted_action_ids": [], "pending_decision_action_ids": [], "resent_action_ids": [], "sender_call_count": 0, "unknown_action_ids": []}
+[round 2] sweep       OK   {"expired_approval_ids": []}
+[round 2] sync        OK   {"aborted_reason": null, "account": "parent@example.com", "complete": true, "cursor_after": "1", "documents_created": 0, "documents_updated": 0, "duplicates_skipped": 0, "failed": 0, "folder": "INBOX", "listed": 0, "result": "OK"}
+[round 2] ingest      OK   {"freshness": {"fts_documents": 1, "fts_search_rows": 1, "index_state_rows": [{"content_hash": "820926c70e9d4e1cf7943a9eca9d490ca355cf6cfa74f21543cb0ecc8850c47f", "content_version": 1, "doc_id": "doc_a419e095f19b94807bdf1124", "error": null, "index_state": "INDEXED", "indexed_at": "2026-10-12T00:29:37.832Z", "path": "/home/asistent/asistent-var/raw/parent_example.com/7cd7002eff9062cafb28a8e4f7257d
+[round 2] understand  OK   {"analyzed": [], "skipped": [{"case_id": "case_61a5981f4fa4ff562237463d", "why": "state=READY_FOR_REVIEW 不在需要理解的状态集合里"}], "skipped_count": 1}
+[round 2] prepare     OK   {"prepared": [], "skipped": [{"case_id": "case_61a5981f4fa4ff562237463d", "why": "用户尚未批准当前版本 dv_2be70a0c7b4b26d753d3c095"}], "skipped_count": 1}
+[round 2] outbound    OK   {"executed": [], "sender_call_count": 0}
+[round 2] archive     OK   {"archived": [], "failed": []}
+[round 2] round=2 OK phases=8 failed=- pending={"actions_authorized": 0, "actions_in_flight": 0, "actions_unknown": 0, "approvals_active": 0, "archive_pending": 0, "cases_awaiting_approval": 1, "cases_open": 1, "cases_total": 1, "drafts_open": 1, "questions_open": 0, "tasks_open": 1} waiting=approval sender_calls=0 | -
+[round 3] recover     OK   {"case_ids_reconciled": [], "demoted_action_ids": [], "pending_decision_action_ids": [], "resent_action_ids": [], "sender_call_count": 0, "unknown_action_ids": []}
+[round 3] sweep       OK   {"expired_approval_ids": []}
+[round 3] sync        OK   {"aborted_reason": null, "account": "parent@example.com", "complete": true, "cursor_after": "1", "documents_created": 0, "documents_updated": 0, "duplicates_skipped": 0, "failed": 0, "folder": "INBOX", "listed": 0, "result": "OK"}
+[round 3] ingest      OK   {"freshness": {"fts_documents": 1, "fts_search_rows": 1, "index_state_rows": [{"content_hash": "820926c70e9d4e1cf7943a9eca9d490ca355cf6cfa74f21543cb0ecc8850c47f", "content_version": 1, "doc_id": "doc_a419e095f19b94807bdf1124", "error": null, "index_state": "INDEXED", "indexed_at": "2026-10-12T00:29:37.832Z", "path": "/home/asistent/asistent-var/raw/parent_example.com/7cd7002eff9062cafb28a8e4f7257d
+[round 3] understand  OK   {"analyzed": [], "skipped": [{"case_id": "case_61a5981f4fa4ff562237463d", "why": "state=READY_FOR_REVIEW 不在需要理解的状态集合里"}], "skipped_count": 1}
+[round 3] prepare     OK   {"prepared": [], "skipped": [{"case_id": "case_61a5981f4fa4ff562237463d", "why": "用户尚未批准当前版本 dv_2be70a0c7b4b26d753d3c095"}], "skipped_count": 1}
+[round 3] outbound    OK   {"executed": [], "sender_call_count": 0}
+[round 3] archive     OK   {"archived": [], "failed": []}
+[round 3] round=3 OK phases=8 failed=- pending={"actions_authorized": 0, "actions_in_flight": 0, "actions_unknown": 0, "approvals_active": 0, "archive_pending": 0, "cases_awaiting_approval": 1, "cases_open": 1, "cases_total": 1, "drafts_open": 1, "questions_open": 0, "tasks_open": 1} waiting=approval sender_calls=0 | -
+
+=== 6) 手机端视角：读健康快照 + 提交审批 + 恰好一次外发 ===
+
+$ python3 -X utf8 /home/asistent/code/asistent/tests/service/device_console_probe.py /home/asistent/asistent-var/config/console-token 18090
+== 未鉴权请求应被拒绝 ==
+GET /api/overview（不带令牌）-> 401
+== /api/health ==
+{"counts": {"AuditEvent": 35, "Case": 1, "Conversation": 1, "Draft": 1, "DraftVersion": 1, "Event": 5, "Fact": 4, "FileArtifact": 1, "Inference": 1, "SourceDocument": 1, "Task": 1, "_total": 12}, "ok": true, "server": "asistent-service", "server_time": "2026-10-12T00:29:54.780Z"}
+== 文件列表里的服务健康快照 ==
+[{"case_id": "", "content_type": "application/json", "download_count": 0, "generated_at": "2026-10-12T00:29:50.402Z", "id": "file_612fe3a9b77522a3bbafaa55", "name": "service-status.json", "permission": "owner_read", "revision": 4, "sha256": "8d21e81eca0d44e4d61c84e9de17bf8b0177c2c258d53b3d2a9d70a7222eaaff", "size_bytes": 9180, "transfer_failures": 0, "updated_at": "2026-10-12T00:29:50.403Z", "version": 4}]
+GET /api/artifacts/file_612fe3a9b77522a3bbafaa55/content -> 200（8868 字节）
+== 手机端下载到的健康快照（关键字段）==
+  rounds_completed = 4
+  rounds_failed = 0
+  waiting_on = ["approval"]
+  pending = {"actions_authorized": 0, "actions_in_flight": 0, "actions_unknown": 0, "approvals_active": 0, "archive_pending": 0, "cases_awaiting_approval": 1, "cases_open": 1, "cases_total": 1, "drafts_open": 1, "questions_open": 0, "tasks_open": 1}
+  last_archive = {"error_code": "", "next_step": "", "state": "", "waiting_for_user": false}
+  notes = ["重启恢复：从 /home/asistent/asistent-var/state/service-state.json 接续历史计数（累计完成 1 轮 / 失败 0 轮，上一轮 2026-10-12T00:29:37.775Z）", "ingest.enabled=false：不扫描挂载目录（只索引邮件原文）", "archive.channel=bdpan：真实通道；未授权时必须返回 NOT_AUTHORIZED（用户动作 U-2）"]
+  status_artifact = {"artifact_id": "file_612fe3a9b77522a3bbafaa55", "name": "service-status.json", "path": "/home/asistent/asistent-var/state/service-status.json", "published": true, "reason": "已发布：手机端可直接下载这份快照", "sha256": "60d8b12b5f9e64bcc3b53f128e4c83b087a0e49ae924586c759af2bb7b768920", "size_bytes": 9180, "snapshot_exists": true, "snapshot_path": "/home/asistent/asistent-var/state/service-status.json", "state_pa
+  state_path = "/home/asistent/asistent-var/state/service-state.json"
+  console_url = "http://127.0.0.1:18090"
+== 待处理（手机端首页数字）==
+  事务=1 草稿=1 审批=0 问题=0
+  审批明细: []
+
+$ python3 -X utf8 /home/asistent/code/asistent/tests/service/device_console_probe.py /home/asistent/asistent-var/config/console-token 18090 --approve
+== 未鉴权请求应被拒绝 ==
+GET /api/overview（不带令牌）-> 401
+== /api/health ==
+{"counts": {"AuditEvent": 36, "Case": 1, "Conversation": 1, "Draft": 1, "DraftVersion": 1, "Event": 5, "Fact": 4, "FileArtifact": 1, "Inference": 1, "SourceDocument": 1, "Task": 1, "_total": 12}, "ok": true, "server": "asistent-service", "server_time": "2026-10-12T00:29:54.913Z"}
+== 文件列表里的服务健康快照 ==
+[{"case_id": "", "content_type": "application/json", "download_count": 1, "generated_at": "2026-10-12T00:29:50.402Z", "id": "file_612fe3a9b77522a3bbafaa55", "name": "service-status.json", "permission": "owner_read", "revision": 5, "sha256": "8d21e81eca0d44e4d61c84e9de17bf8b0177c2c258d53b3d2a9d70a7222eaaff", "size_bytes": 9180, "transfer_failures": 0, "updated_at": "2026-10-12T00:29:54.790Z", "version": 4}]
+GET /api/artifacts/file_612fe3a9b77522a3bbafaa55/content -> 200（8868 字节）
+== 手机端下载到的健康快照（关键字段）==
+  rounds_completed = 4
+  rounds_failed = 0
+  waiting_on = ["approval"]
+  pending = {"actions_authorized": 0, "actions_in_flight": 0, "actions_unknown": 0, "approvals_active": 0, "archive_pending": 0, "cases_awaiting_approval": 1, "cases_open": 1, "cases_total": 1, "drafts_open": 1, "questions_open": 0, "tasks_open": 1}
+  last_archive = {"error_code": "", "next_step": "", "state": "", "waiting_for_user": false}
+  notes = ["重启恢复：从 /home/asistent/asistent-var/state/service-state.json 接续历史计数（累计完成 1 轮 / 失败 0 轮，上一轮 2026-10-12T00:29:37.775Z）", "ingest.enabled=false：不扫描挂载目录（只索引邮件原文）", "archive.channel=bdpan：真实通道；未授权时必须返回 NOT_AUTHORIZED（用户动作 U-2）"]
+  status_artifact = {"artifact_id": "file_612fe3a9b77522a3bbafaa55", "name": "service-status.json", "path": "/home/asistent/asistent-var/state/service-status.json", "published": true, "reason": "已发布：手机端可直接下载这份快照", "sha256": "60d8b12b5f9e64bcc3b53f128e4c83b087a0e49ae924586c759af2bb7b768920", "size_bytes": 9180, "snapshot_exists": true, "snapshot_path": "/home/asistent/asistent-var/state/service-status.json", "state_pa
+  state_path = "/home/asistent/asistent-var/state/service-state.json"
+  console_url = "http://127.0.0.1:18090"
+== 待处理（手机端首页数字）==
+  事务=1 草稿=1 审批=0 问题=0
+  审批明细: []
+== 从手机端提交审批 ==
+POST /api/approvals {"draft_id": "draft_e54ebf19e68ded827d6b9766", "version_no": 1, "confirm": true} -> 201
+{"approval": {"action_id": null, "approved_action_digest": "c07e1f21507f80e6e94d169d3b22121b79c4bfe1a9f1132093eeb2261740aab0", "approver": "user", "auth_channel": "console", "case_id": "case_61a5981f4fa4ff562237463d", "consumed_by_attempt_id": null, "created_at_approval": "2026-10-12T00:29:54.974Z", "expires_at": "2026-10-13T00:29:54.974Z", "id": "appr_c59874db4ea823b3b871caeb", "invalidated_reason": null, "revision": 1, "revoked_reason": null, "state": "ACTIVE", "target_object_ids": ["dv_2be70a0c7b4b26d753d3c095"], "updated_at": "2026-10-12T00:29:54.981Z"}, "draft": {"case_id": "case_61a5981f
+
+$ python3 -X utf8 /home/asistent/code/asistent/tests/service/device_console_probe.py /home/asistent/asistent-var/config/console-token 18090 --expect-submits 1
+== 未鉴权请求应被拒绝 ==
+GET /api/overview（不带令牌）-> 401
+== /api/health ==
+{"counts": {"ActionAttempt": 1, "Approval": 3, "ArchiveJob": 3, "ArchiveManifest": 3, "AuditEvent": 71, "Case": 1, "Conversation": 1, "Draft": 1, "DraftVersion": 1, "Event": 9, "Execution": 1, "ExternalAction": 1, "Fact": 4, "FileArtifact": 1, "Inference": 1, "SourceDocument": 1, "Task": 1, "_total": 24}, "ok": true, "server": "asistent-service", "server_time": "2026-10-12T00:30:07.185Z"}
+== 文件列表里的服务健康快照 ==
+[{"case_id": "", "content_type": "application/json", "download_count": 2, "generated_at": "2026-10-12T00:30:06.140Z", "id": "file_612fe3a9b77522a3bbafaa55", "name": "service-status.json", "permission": "owner_read", "revision": 9, "sha256": "76f89dc42a5a3cfdb2e998d64ffcac37e40cfcc57f1219a417bed4edcd249943", "size_bytes": 10874, "transfer_failures": 0, "updated_at": "2026-10-12T00:30:06.141Z", "version": 7}]
+GET /api/artifacts/file_612fe3a9b77522a3bbafaa55/content -> 200（10258 字节）
+== 手机端下载到的健康快照（关键字段）==
+  rounds_completed = 7
+  rounds_failed = 0
+  waiting_on = ["pan"]
+  pending = {"actions_authorized": 0, "actions_in_flight": 0, "actions_unknown": 0, "approvals_active": 0, "archive_pending": 0, "cases_awaiting_approval": 0, "cases_open": 0, "cases_total": 1, "drafts_open": 0, "questions_open": 0, "tasks_open": 0}
+  last_archive = {"case_id": "case_61a5981f4fa4ff562237463d", "error_code": "NOT_AUTHORIZED", "next_step": "待用户授权：在设备上执行 `bdpan login --get-auth-url --accept-disclaimer` 取授权链接，浏览器授权后 `printf '%s\\n' \"<授权码>\" | bdpan login --set-code-stdin --accept-disclaimer`；完成后重跑同一命令（同一 archive_id 会复用已校验对象，不会重复上传）。", "state": "FAILED", "waiting_for_user": true}
+  notes = ["重启恢复：从 /home/asistent/asistent-var/state/service-state.json 接续历史计数（累计完成 1 轮 / 失败 0 轮，上一轮 2026-10-12T00:29:37.775Z）", "ingest.enabled=false：不扫描挂载目录（只索引邮件原文）", "archive.channel=bdpan：真实通道；未授权时必须返回 NOT_AUTHORIZED（用户动作 U-2）"]
+  status_artifact = {"artifact_id": "file_612fe3a9b77522a3bbafaa55", "name": "service-status.json", "path": "/home/asistent/asistent-var/state/service-status.json", "published": true, "reason": "已发布：手机端可直接下载这份快照", "sha256": "8a4a6d9e3c13e4f24b04456afd170cf2760efa676cc8b935c204da0c2755c3a7", "size_bytes": 10874, "snapshot_exists": true, "snapshot_path": "/home/asistent/asistent-var/state/service-status.json", "state_p
+  state_path = "/home/asistent/asistent-var/state/service-state.json"
+  console_url = "http://127.0.0.1:18090"
+== 待处理（手机端首页数字）==
+  事务=1 草稿=1 审批=3 问题=0
+  审批明细: [{"action_id": "act_1c5f445133960c58cb07a458", "approved_action_digest": "9a0336d5761dc6c581a0cac9f72372e6eb1e4c00a699ba4cb074f0f69bd93cce", "approver": "user", "auth_channel": "console", "case_id": "case_61a5981f4fa4ff562237463d", "consumed_by_attempt_id": "att_7a4477c6670c451daa195d97b0db64e4", "created_at_approval": "2026-10-12T00:29:55.467Z", "expires_at": "2026-10-13T00:29:55.467Z", "id": "appr_ebebab692206410d941445c483e97905", "invalidated_reason": null, "revision": 2, "revoked_reason": null, "state": "CONSUMED", "target_object_ids": ["act_1c5f445133960c58cb07a458"], "updated_at": "2026
+== 外发账本 ==
+  event=submit action=act_1c5f445133960c58cb07a458 key=action:28733d71eb9cc410b to=['市图书馆少儿部 <kids@example.org>']
+
+外发账本行数（应恰好 1）：1
+再等两轮，确认不重发……
+外发账本行数（仍应恰好 1）：1
+
+=== 7) 优雅停止（SIGTERM）+ 日志尾部 ===
+
+$ sh /home/asistent/code/asistent/scripts/run-service.sh stop
+发送 SIGTERM 给 pid=13982（等当前轮跑完，最长 30s）
+服务已停止（等待 1s）
+
+$ sh -c tail -n 15 '/home/asistent/asistent-var/logs/service.log'
+[round 7] prepare     OK   {"prepared": [], "skipped": [], "skipped_count": 0}
+[round 7] outbound    OK   {"executed": [], "sender_call_count": 1}
+[round 7] archive     OK   {"archived": [{"archive_id": "archive:8ad3cf8a4df56c9e9eb27db3fe52edb12f17bc7caa8bd37ad6df39fece67b7ba", "case_id": "case_61a5981f4fa4ff562237463d", "content_origin_summary": {"METADATA_PROJECTION": 0, "RAW_BYTES": 2, "byte_level_verifiable": 2, "projection_only": 0, "undeclared": 0}, "error_code": "NOT_AUTHORIZED", "error_text": "bdpan 未授权（未登录或令牌已过期）：拒绝执行归档写入", "failed": 0, "failed_detail": [], "
+[round 7] round=7 OK phases=8 failed=- pending={"actions_authorized": 0, "actions_in_flight": 0, "actions_unknown": 0, "approvals_active": 0, "archive_pending": 0, "cases_awaiting_approval": 0, "cases_open": 0, "cases_total": 1, "drafts_open": 0, "questions_open": 0, "tasks_open": 0} waiting=pan sender_calls=1 | -
+[round 8] recover     OK   {"case_ids_reconciled": [], "demoted_action_ids": [], "pending_decision_action_ids": [], "resent_action_ids": [], "sender_call_count": 1, "unknown_action_ids": []}
+[round 8] sweep       OK   {"expired_approval_ids": []}
+[round 8] sync        OK   {"aborted_reason": null, "account": "parent@example.com", "complete": true, "cursor_after": "1", "documents_created": 0, "documents_updated": 0, "duplicates_skipped": 0, "failed": 0, "folder": "INBOX", "listed": 0, "result": "OK"}
+[round 8] ingest      OK   {"freshness": {"fts_documents": 1, "fts_search_rows": 1, "index_state_rows": [{"content_hash": "820926c70e9d4e1cf7943a9eca9d490ca355cf6cfa74f21543cb0ecc8850c47f", "content_version": 1, "doc_id": "doc_a419e095f19b94807bdf1124", "error": null, "index_state": "INDEXED", "indexed_at": "2026-10-12T00:29:37.832Z", "path": "/home/asistent/asistent-var/raw/parent_example.com/7cd7002eff9062cafb28a8e4f7257d
+[round 8] understand  OK   {"analyzed": [], "skipped": [{"case_id": "case_61a5981f4fa4ff562237463d", "why": "state=SUCCEEDED 不在需要理解的状态集合里"}], "skipped_count": 1}
+[round 8] prepare     OK   {"prepared": [], "skipped": [], "skipped_count": 0}
+[round 8] outbound    OK   {"executed": [], "sender_call_count": 1}
+[round 8] archive     OK   {"archived": [{"archive_id": "archive:0bea8b2ca2365a859722765519da3aea8e5c8b34db2744497bd006e7f4a3ddf9", "case_id": "case_61a5981f4fa4ff562237463d", "content_origin_summary": {"METADATA_PROJECTION": 0, "RAW_BYTES": 2, "byte_level_verifiable": 2, "projection_only": 0, "undeclared": 0}, "error_code": "NOT_AUTHORIZED", "error_text": "bdpan 未授权（未登录或令牌已过期）：拒绝执行归档写入", "failed": 0, "failed_detail": [], "
+[round 8] round=8 OK phases=8 failed=- pending={"actions_authorized": 0, "actions_in_flight": 0, "actions_unknown": 0, "approvals_active": 0, "archive_pending": 0, "cases_awaiting_approval": 0, "cases_open": 0, "cases_total": 1, "drafts_open": 0, "questions_open": 0, "tasks_open": 0} waiting=pan sender_calls=1 | -
+[service] 收到停止请求（SIGTERM）：本轮结束后退出
+[service] 退出：共 8 轮，rounds=9 failed=0 last_round=2026-10-12T00:30:16.385Z sync=OK waiting=pan open_cases=0 questions=0 approvals=0 unknown=0
+
+进程还在吗（应为空）：
+（没有残留进程）
+
+=== 取证完成 ===

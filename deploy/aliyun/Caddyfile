@@ -1,0 +1,24 @@
+# asistent 控制台：手机端唯一入口
+# 手机 → https://asistent.example.com/ → Caddy → 127.0.0.1:18800（frpc 隧道在阿里云侧的出口）→ 板子控制台
+#
+# 为什么需要域名：Let's Encrypt 不能给裸 IP 签证书，必须有个域名解析到本机。
+# 懒得自建 DNS 就用"把 IP 写进域名"的公共通配解析服务；换真域名只改下面站点地址。
+#
+# 前置条件：云安全组放行 TCP 80（ACME HTTP-01）与 443（HTTPS 入口）。
+asistent.example.com {
+	encode zstd gzip
+
+	# 控制台的令牌在 Authorization 头里，不靠 referer；别把它漏给第三方
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "no-referrer"
+		-Server
+	}
+
+	# API 一律不缓存：待办/审批必须每次取最新，缓存住旧的等于制造幻觉
+	@api path /api/*
+	header @api Cache-Control "no-store"
+
+	reverse_proxy 127.0.0.1:18800
+}

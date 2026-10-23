@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#faf6ef">
+<meta name="description" content="事务台：设备本地的个人事务控制台。看状态、答追问、改草稿、审批、取文件。">
+<meta name="format-detection" content="telephone=no,date=no,address=no,email=no">
+
+<!-- iOS：添加到主屏幕后以独立窗口运行；状态栏用浅色（页面是奶白底） -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="事务台">
+<meta name="mobile-web-app-capable" content="yes">
+
+<title>事务台 · 手机控制台</title>
+
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="icon" href="/icon-192.png" sizes="192x192" type="image/png">
+<!-- iOS 的「添加到主屏幕」只认 PNG（SVG 会被忽略），必须是 180×180 -->
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="192x192" href="/icon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="/icon-512.png">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="title">事务台</div>
+  <div class="conn" id="conn" data-state="off">未连接</div>
+</header>
+
+<main id="main">
+  <!-- 登录：令牌只在内存里用一次，换成的会话放在 HttpOnly Cookie（JS 读不到、不落 localStorage/URL） -->
+  <section class="card" id="gate">
+    <h2>连接到你的助手</h2>
+    <p class="hint">令牌只用来<strong>换一次会话</strong>：这台设备之后会记住登录（默认 7 天，滑动续期），
+      从桌面图标直接打开即可，不用每次粘贴。令牌本身不进浏览器存储、不进 URL。</p>
+    <label class="field">
+      <span>连接令牌</span>
+      <input id="token" type="password" autocomplete="off" autocapitalize="off"
+             autocorrect="off" inputmode="text" spellcheck="false" placeholder="粘贴设备上的令牌">
+    </label>
+    <button id="connect" class="primary" type="button">连接</button>
+    <details>
+      <summary>令牌在哪</summary>
+      <p class="hint">在设备上执行 <code>cat ~/asistent-var/config/console-token</code> 查看；
+        首次使用可用 <code>openssl rand -hex 32 &gt; ~/asistent-var/config/console-token</code> 生成，
+        并 <code>chmod 600</code>。</p>
+    </details>
+    <pre id="gate-error" class="error" hidden></pre>
+  </section>
+
+  <div id="app" hidden>
+    <nav class="tabs" id="tabs" role="tablist" aria-label="视图切换">
+      <button data-tab="pending" id="tabbtn-pending" class="active" type="button"
+              role="tab" aria-controls="tab-pending" aria-selected="true">待办<i id="badge-pending"></i></button>
+      <button data-tab="cases" id="tabbtn-cases" type="button"
+              role="tab" aria-controls="tab-cases" aria-selected="false">事务</button>
+      <button data-tab="files" id="tabbtn-files" type="button"
+              role="tab" aria-controls="tab-files" aria-selected="false">文件</button>
+    </nav>
+
+    <section class="tab" id="tab-pending" role="tabpanel" aria-labelledby="tabbtn-pending">
+      <div class="card">
+        <h2>未读与待办 <button id="refresh" class="ghost" type="button">刷新</button></h2>
+        <div id="pending-summary" class="counts"></div>
+        <ul id="pending-list" class="list"></ul>
+        <p class="hint" id="pending-empty" hidden>暂无待办。断网期间产生的事项也会在这里补齐。</p>
+      </div>
+    </section>
+
+    <section class="tab" id="tab-cases" role="tabpanel" aria-labelledby="tabbtn-cases" hidden>
+      <div class="card">
+        <h2>事务列表 <label class="inline"><input type="checkbox" id="show-closed">含已结束</label></h2>
+        <ul id="case-list" class="list"></ul>
+      </div>
+      <div class="card" id="case-detail" hidden>
+        <h2 id="case-title">事务详情</h2>
+        <dl id="case-fields" class="kv"></dl>
+        <div id="case-agent" class="sub"></div>
+        <div id="case-questions" class="sub"></div>
+        <div id="case-drafts" class="sub"></div>
+        <div id="case-approvals" class="sub"></div>
+        <div id="case-facts" class="sub"></div>
+        <details id="case-audit-wrap"><summary>审计链</summary><ol id="case-audit" class="audit"></ol></details>
+      </div>
+    </section>
+
+    <section class="tab" id="tab-files" role="tabpanel" aria-labelledby="tabbtn-files" hidden>
+      <div class="card">
+        <h2>生成文件</h2>
+        <ul id="file-list" class="list"></ul>
+      </div>
+    </section>
+  </div>
+</main>
+
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+From: ÖĞÎÄ·¢¼şÈË <broken@example.org>
+To: owner@example.com
+Subject: ÖĞÎÄÖ÷Ìâ (GBK raw bytes)
+Message-ID: <broken-1@example.org>
+Date: not a real date at all
+MIME-Version: 1.0
+Content-Type: text/plain; charset=unknown-8bit
+Content-Transfer-Encoding: 8bit
+
+ÿş ÖĞÎÄ body with invalid utf-8 ÿ

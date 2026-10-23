@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192" role="img" aria-label="事务台">
+  <!-- 暖白底 + 陶土色"日出"：24 小时值守 -->
+  <rect width="192" height="192" rx="44" fill="#faf6ef"/>
+  <rect x="0.75" y="0.75" width="190.5" height="190.5" rx="43.25" fill="none" stroke="#e9dfd0" stroke-width="1.5"/>
+  <path d="M46 118a50 50 0 0 1 100 0z" fill="#c0704a"/>
+  <path d="M34 132h124" stroke="#2e2721" stroke-width="7" stroke-linecap="round" opacity="0.85"/>
+  <circle cx="96" cy="152" r="6" fill="#c0704a" opacity="0.55"/>
+</svg>
